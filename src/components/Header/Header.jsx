@@ -1,55 +1,45 @@
-import { useState } from "react";
-import { useHistory } from 'react-router-dom';
-import "./Header.css";
 
+import "../Header/Header"
 
+//Arreglar
 
-function Header({ onSearch }) {
-    const [searchTerm, setsearchTerm] = useState("");
-    const history = useHistory;
+const Header = () => {
+  const goToApp = () => {
+    window.location.href = '/app'; // Cambia '/app' a la ruta correspondiente de tu aplicación
+  };
 
-    const handleSearchChange = (e) => {
-        setsearchTerm(e.target.value);
-    }
+  const goToProfile = () => {
+    window.location.href = '/profile'; // Cambia '/profile' a la ruta correspondiente de tu aplicación
+  };
 
-    const handleSearchSubmit = (e) => {
-        e.preventDefault();
-        onSearch(searchTerm);
-    }
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const query = event.target.search.value;
+    // Implementa la lógica de búsqueda aquí
+    console.log('Buscando:', query);
+  };
 
-    const goToHombe = () => {
-        history.push("/profile");
-    }
-
-
-
-    return ( <
-        header className = "header" >
-        <
-        div className = "header-container" >
-        <
-        button onClick = { goToHome }
-        className = "nav-button" > Inicio < /button> <
-        form onSubmit = { handleSearchSubmit }
-        className = "search-form" >
-        <
-        input type = "text"
-        value = { searchTerm }
-        onChange = { handleSearchChange }
-        placeholder = "Buscar productos..."
-        className = "search-input" /
-        >
-        <
-        button type = "submit"
-        className = "search-button" > Buscar < /button> <
-        /form> <
-        button onClick = { goToProfile }
-        className = "nav-button" > Perfil < /button> <
-        /div> <
-        /header>
-    )
-
-}
-
+  return (
+    <header className="header">
+      <button className="header-button" onClick={goToApp}>
+        Ir a la App
+      </button>
+      <form className="search-form" onSubmit={handleSearch}>
+        <input
+          type="text"
+          name="search"
+          placeholder="Buscar producto"
+          className="search-input"
+        />
+        <button type="submit" className="search-button">
+          Buscar
+        </button>
+      </form>
+      <button className="header-button" onClick={goToProfile}>
+        Perfil
+      </button>
+    </header>
+  );
+};
 
 export default Header;

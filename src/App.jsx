@@ -1,29 +1,28 @@
-import { useState } from 'react'
-import './App.css'
+import React, { useState } from 'react';
+import Dashboard from './components/dashBoard/dashBoard';
+import Login from './components/Login/Login'; // Si tienes un componente de login
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import "./components/Header/Header"
+const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-function App() {
-    const handleSearch = (searchTerm) => {
-        // Implementa la lógica de búsqueda aquí
-        console.log(`Buscando productos con el término: ${searchTerm}`);
-    };
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
 
-    return ( <
-        Router >
-        <
-        AuthProvider >
-        <
-        Header onSearch = { handleSearch } > < /Header> <
-        switch >
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
 
-        <
-        /switch> <
-        /AuthProvider>
+  return (
+    <div className="App">
+      {isAuthenticated ? (
+        <Dashboard onLogout={handleLogout} />
+      ) : (
+        <Login onLogin={handleLogin} />
+      )}
+    </div>
+  );
+};
 
-        <
-        /Router>
-    )
-}
-
-export default App
+export default App;
