@@ -1,42 +1,33 @@
-
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Col, Row } from 'react-bootstrap';
 import Producto from '../Productos/producto';
 
-const Dashboard = ({ onLogout }) => {
+const Dashboard = ({ user, onLogout }) => {
     const [componentsList, setComponentsList] = useState([]);
-    const [searchValue, setSearchValue] = useState("");
+    const [searchValue, setSearchValue] = useState('');
 
     useEffect(() => {
-        // Fetch Components
-        fetch("http://localhost:8000/Componentes", {
-            headers: {
-                accept: "application/json"
-            }
-        })
-            .then((response) => response.json())
-            .then((componentData) => {
+        fetch('http://localhost:8000/Componentes')
+            .then(response => response.json())
+            .then(componentData => {
                 setComponentsList(componentData);
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(error => {
+                console.error('Error al cargar componentes:', error);
             });
     }, []);
 
-    //const saveComponentDataHandler = (componentData) => {
-        // Función para guardar un nuevo componente
-    //};
-
     const addToCartHandler = (componente) => {
-        // Aquí podrías manejar la lógica para agregar al carrito
         console.log(`Agregando al carrito: ${componente.name}`);
+        // Aquí puedes manejar la lógica para agregar al carrito
     };
 
     const searchHandler = (searchQuery) => {
         setSearchValue(searchQuery);
         setComponentsList(componentsList.filter(c =>
-            c.name.toUpperCase().includes(searchQuery.toUpperCase())));
+            c.name.toUpperCase().includes(searchQuery.toUpperCase())
+        ));
     };
 
     return (
@@ -50,7 +41,7 @@ const Dashboard = ({ onLogout }) => {
                     <Button onClick={onLogout}>Cerrar sesión</Button>
                 </Col>
             </Row>
-            <p>¡Quiero gestionar componentes!</p>
+            <p>Bienvenido, {user.firstName}!</p>
             <div>
                 <input
                     type="text"
@@ -73,6 +64,7 @@ const Dashboard = ({ onLogout }) => {
 };
 
 Dashboard.propTypes = {
+    user: PropTypes.object.isRequired,
     onLogout: PropTypes.func.isRequired,
 };
 

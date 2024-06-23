@@ -1,15 +1,25 @@
-import React from 'react';
+import { useState } from 'react';
 import Dashboard from './components/dashBoard/dashBoard';
+import Login from './components/Login/Login';
 
 const App = () => {
+    const [user, setUser] = useState(null);
+
+    const handleLogin = (loggedInUser) => {
+        setUser(loggedInUser);
+    };
+
     const handleLogout = () => {
-        // Función para manejar el cierre de sesión
-        console.log('Cerrar sesión');
+        setUser(null);
     };
 
     return (
         <div className="container">
-            <Dashboard onLogout={handleLogout} />
+            {user ? (
+                <Dashboard user={user} onLogout={handleLogout} />
+            ) : (
+                <Login onLogin={handleLogin} />
+            )}
         </div>
     );
 };
