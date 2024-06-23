@@ -44,8 +44,22 @@ const Login = ({ onLogin }) => {
             }
 
             const usersData = await usersResponse.json();
-            // Aquí puedes manejar la respuesta de usuarios, por ejemplo, llamando a onLogin con los datos recibidos
-            onLogin(usersData);
+            console.log('Usuarios:', usersData); // Verificar la estructura de la respuesta
+
+            // Buscar el usuario con el nombre de usuario proporcionado
+            const user = usersData.find(u => u.username === username);
+
+            if (!user) {
+                throw new Error('Usuario no encontrado');
+            }
+
+            // Verificar el estado del usuario
+            if (!user.status) {
+                throw new Error('Usuario no activado. Por favor, contacta al administrador.');
+            }
+
+            // Si el usuario está activo, llamamos a onLogin con los datos del usuario
+            onLogin(user);
 
         } catch (error) {
             setError(error.message || 'Error al conectar con la API');
