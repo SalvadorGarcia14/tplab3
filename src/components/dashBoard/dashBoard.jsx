@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { Button, Col, Row } from 'react-bootstrap';
 import Producto from '../Productos/producto';
 
-const Dashboard = ({ user, onLogout }) => {
+const Dashboard = ({ user, onLogout, searchValue }) => {
     const [componentsList, setComponentsList] = useState([]);
-    const [searchValue, setSearchValue] = useState('');
 
     useEffect(() => {
         fetch('http://localhost:8000/Componentes')
@@ -23,12 +22,9 @@ const Dashboard = ({ user, onLogout }) => {
         // Aquí puedes manejar la lógica para agregar al carrito
     };
 
-    const searchHandler = (searchQuery) => {
-        setSearchValue(searchQuery);
-        setComponentsList(componentsList.filter(c =>
-            c.name.toUpperCase().includes(searchQuery.toUpperCase())
-        ));
-    };
+    const filteredComponents = componentsList.filter(c =>
+        c.name.toUpperCase().includes(searchValue.toUpperCase())
+    );
 
     return (
         <>
@@ -42,22 +38,14 @@ const Dashboard = ({ user, onLogout }) => {
                 </Col>
             </Row>
             <p>Bienvenido, {user.firstName}!</p>
-            <div>
-                <input
-                    type="text"
-                    placeholder="Buscar componente..."
-                    value={searchValue}
-                    onChange={(e) => searchHandler(e.target.value)}
-                />
-                <div className="d-flex flex-wrap">
-                    {componentsList.map(componente => (
-                        <Producto
-                            key={componente.id}
-                            componente={componente}
-                            onAddToCart={addToCartHandler}
-                        />
-                    ))}
-                </div>
+            <div className="d-flex flex-wrap">
+                {filteredComponents.map(componente => (
+                    <Producto
+                        key={componente.id}
+                        componente={componente}
+                        onAddToCart={addToCartHandler}
+                    />
+                ))}
             </div>
         </>
     );
@@ -66,6 +54,7 @@ const Dashboard = ({ user, onLogout }) => {
 Dashboard.propTypes = {
     user: PropTypes.object.isRequired,
     onLogout: PropTypes.func.isRequired,
+    searchValue: PropTypes.string.isRequired,
 };
 
 export default Dashboard;
