@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
@@ -8,7 +7,6 @@ const Producto = ({ componente, onAddToCart }) => {
 
     const handleAddToCart = () => {
         setIsAdded(true);
-        // Aquí podrías manejar la lógica para agregar al carrito, si es necesario
         onAddToCart(componente);
     };
 
@@ -19,15 +17,21 @@ const Producto = ({ componente, onAddToCart }) => {
                 <Card.Title>{componente.name}</Card.Title>
                 <Card.Text>
                     Precio: {componente.precio} <br />
-                    Stock: {componente.stock ? 'Disponible' : 'Agotado'}
+                    Stock: {componente.status ? 'Disponible' : 'Agotado'}
                 </Card.Text>
-                {!isAdded ? (
-                    <Button variant="primary" onClick={handleAddToCart}>
-                        Agregar al carrito
-                    </Button>
+                {componente.status ? (
+                    !isAdded ? (
+                        <Button variant="primary" onClick={handleAddToCart}>
+                            Agregar al carrito
+                        </Button>
+                    ) : (
+                        <Button variant="success" disabled>
+                            Agregado al carrito
+                        </Button>
+                    )
                 ) : (
-                    <Button variant="success" disabled>
-                        Agregado al carrito
+                    <Button variant="secondary" disabled>
+                        No disponible
                     </Button>
                 )}
             </Card.Body>
@@ -37,10 +41,10 @@ const Producto = ({ componente, onAddToCart }) => {
 
 Producto.propTypes = {
     componente: PropTypes.shape({
-        imagen: PropTypes.string.isRequired,
+        imagen: PropTypes.string,
         name: PropTypes.string.isRequired,
         precio: PropTypes.number.isRequired,
-        stock: PropTypes.bool.isRequired,
+        status: PropTypes.bool.isRequired,
     }).isRequired,
     onAddToCart: PropTypes.func.isRequired,
 };
