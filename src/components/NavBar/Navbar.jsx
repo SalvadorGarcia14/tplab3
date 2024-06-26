@@ -10,7 +10,7 @@ const NavBar = ({ searchValue, setSearchValue }) => {
                 <Nav.Link as={Link} to="/pantallaProduto">PRODUCTOS</Nav.Link>
                 <Nav.Link as={Link} to="/pantallaUsuario">PERFIL</Nav.Link> 
             </Nav>
-            <Form inline className="ml-auto">
+            <Form inline="true" className="ml-auto"> {/* Cambia aquí */}
                 <FormControl 
                     type="text" 
                     placeholder="Buscar componente..." 
