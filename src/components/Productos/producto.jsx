@@ -2,12 +2,16 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
 
-const Producto = ({ componente, onAddToCart }) => {
+const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct }) => {
     const [isAdded, setIsAdded] = useState(false);
 
     const handleAddToCart = () => {
         setIsAdded(true);
         onAddToCart(componente);
+    };
+
+    const handleRemoveProduct = () => {
+        onRemoveProduct(componente.id);
     };
 
     return (
@@ -20,15 +24,22 @@ const Producto = ({ componente, onAddToCart }) => {
                     Stock: {componente.status ? 'Disponible' : 'Agotado'}
                 </Card.Text>
                 {componente.status ? (
-                    !isAdded ? (
-                        <Button variant="primary" onClick={handleAddToCart}>
-                            Agregar al carrito
-                        </Button>
-                    ) : (
-                        <Button variant="success" disabled>
-                            Agregado al carrito
-                        </Button>
-                    )
+                    <>
+                        {!isAdded ? (
+                            <Button variant="primary" onClick={handleAddToCart}>
+                                Agregar al carrito
+                            </Button>
+                        ) : (
+                            <Button variant="success" disabled>
+                                Agregado al carrito
+                            </Button>
+                        )}
+                        {isAdminOrVendedor && (
+                            <Button variant="danger" onClick={handleRemoveProduct}>
+                                Quitar producto
+                            </Button>
+                        )}
+                    </>
                 ) : (
                     <Button variant="secondary" disabled>
                         No disponible
@@ -41,12 +52,15 @@ const Producto = ({ componente, onAddToCart }) => {
 
 Producto.propTypes = {
     componente: PropTypes.shape({
+        id: PropTypes.number.isRequired,
         imagen: PropTypes.string,
         name: PropTypes.string.isRequired,
         precio: PropTypes.number.isRequired,
         status: PropTypes.bool.isRequired,
     }).isRequired,
     onAddToCart: PropTypes.func.isRequired,
+    isAdminOrVendedor: PropTypes.bool.isRequired,
+    onRemoveProduct: PropTypes.func.isRequired,
 };
 
 export default Producto;

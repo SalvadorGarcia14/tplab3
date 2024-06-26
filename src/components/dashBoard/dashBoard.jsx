@@ -22,6 +22,31 @@ const Dashboard = ({ user, onLogout, searchValue }) => {
         // Aquí puedes manejar la lógica para agregar al carrito
     };
 
+    const handleRemoveProduct = async (productId) => {
+        const accessToken = localStorage.getItem('accessToken');
+
+        try {
+            const response = await fetch(`http://localhost:8000/Componentes/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al eliminar el producto');
+            }
+
+            // Actualizar la lista de componentes después de eliminar
+            const updatedComponents = componentsList.filter(c => c.id !== productId);
+            setComponentsList(updatedComponents);
+
+        } catch (error) {
+            console.error('Error al eliminar el producto:', error);
+        }
+    };
+
     const filteredComponents = componentsList.filter(c =>
         c.name.toUpperCase().includes(searchValue.toUpperCase())
     );
@@ -44,6 +69,8 @@ const Dashboard = ({ user, onLogout, searchValue }) => {
                         key={componente.id}
                         componente={componente}
                         onAddToCart={addToCartHandler}
+                        isAdminOrVendedor={user.rango === 'admin' || user.rango === 'vendedor'}
+                        onRemoveProduct={handleRemoveProduct}
                     />
                 ))}
             </div>
