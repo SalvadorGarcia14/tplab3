@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import CrearUsuario from '../CrearUsuario/crearUsuario';
 import AgregarProducto from '../AgregarProducto/AgregarProducto';
+import ListaUsuarios from '../ListaUsuarios/ListaUsuarios';
 
 const PantallaUsuario = ({ user }) => {
     const [showCreateUser, setShowCreateUser] = useState(false);
     const [showAddProduct, setShowAddProduct] = useState(false);
+    const [showUserList, setShowUserList] = useState(false);
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -32,24 +34,6 @@ const PantallaUsuario = ({ user }) => {
         console.log('Producto agregado:', newProduct);
     };
 
-    const handleRemoveUser = (userId) => {
-        // Eliminar usuario del backend y actualizar el estado local
-        fetch(`http://localhost:8000/users/${userId}`, {
-            method: 'DELETE',
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error al eliminar usuario');
-                }
-                // Filtrar los usuarios para quitar el usuario eliminado
-                const updatedUsers = users.filter(u => u.id !== userId);
-                setUsers(updatedUsers);
-            })
-            .catch(error => {
-                console.error('Error al eliminar usuario:', error);
-            });
-    };
-
     return (
         <div>
             <h2>Pantalla de Usuario</h2>
@@ -61,30 +45,13 @@ const PantallaUsuario = ({ user }) => {
                     {(user.rango === 'admin' || user.rango === 'vendedor') && (
                         <p>Rango: {user.rango}</p>
                     )}
-                    {user.rango === 'admin' && (
-                        <Card className="mt-3">
-                            <Card.Header>Usuarios Registrados</Card.Header>
-                            <Card.Body>
-                                {users.map(u => (
-                                    <Card key={u.id} className="mb-2">
-                                        <Card.Body>
-                                            <Card.Title>{u.firstName} {u.lastName}</Card.Title>
-                                            <Card.Text>
-                                                <strong>Username:</strong> {u.username}<br />
-                                                <strong>Email:</strong> {u.email}<br />
-                                                <strong>Status:</strong> {u.status ? 'Activo' : 'Inactivo'}
-                                            </Card.Text>
-                                            <Button variant="danger" onClick={() => handleRemoveUser(u.id)}>
-                                                Eliminar Usuario
-                                            </Button>
-                                        </Card.Body>
-                                    </Card>
-                                ))}
-                            </Card.Body>
-                        </Card>
-                    )}
+                    {/* Mostrar lista de usuarios solo si el usuario es admin */}
                     {user.rango === 'admin' && (
                         <>
+                            <Button onClick={() => setShowUserList(!showUserList)}>
+                                {showUserList ? 'Ocultar Lista de Usuarios' : 'Mostrar Lista de Usuarios'}
+                            </Button>
+                            {showUserList && <ListaUsuarios user={user} />}
                             <Button onClick={() => setShowCreateUser(!showCreateUser)}>
                                 {showCreateUser ? 'Ocultar Crear Usuario' : 'Crear Usuario'}
                             </Button>
@@ -108,7 +75,13 @@ const PantallaUsuario = ({ user }) => {
 };
 
 PantallaUsuario.propTypes = {
-    user: PropTypes.object,
+    user: PropTypes.shape({
+        firstName: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        rango: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 export default PantallaUsuario;

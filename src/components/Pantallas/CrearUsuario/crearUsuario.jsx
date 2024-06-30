@@ -9,6 +9,7 @@ const CrearUsuario = ({ onUserCreated }) => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState(true); // Default to true
+    const [rango, setRango] = useState('cliente'); // Default to 'cliente'
     const [error, setError] = useState(null);
 
     const handleSubmit = async (e) => {
@@ -29,7 +30,7 @@ const CrearUsuario = ({ onUserCreated }) => {
                     'Authorization': `Bearer ${accessToken}`, // Incluye el token en los encabezados
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ firstName, lastName, username, password, email, status }),
+                body: JSON.stringify({ firstName, lastName, username, password, email, status, rango }),
             });
 
             if (!response.ok) {
@@ -109,6 +110,18 @@ const CrearUsuario = ({ onUserCreated }) => {
                     >
                         <option value="true">Activo</option>
                         <option value="false">Inactivo</option>
+                    </Form.Control>
+                </Form.Group>
+                <Form.Group controlId="formRango">
+                    <Form.Label>Rango</Form.Label>
+                    <Form.Control
+                        as="select"
+                        value={rango}
+                        onChange={(e) => setRango(e.target.value)}
+                        required
+                    >
+                        <option value="cliente">Cliente</option>
+                        <option value="vendedor">Vendedor</option>
                     </Form.Control>
                 </Form.Group>
                 <Button variant="primary" type="submit">
