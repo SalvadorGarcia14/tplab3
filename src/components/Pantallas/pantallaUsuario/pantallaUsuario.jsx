@@ -1,3 +1,5 @@
+// En PantallaUsuario.jsx
+
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
@@ -12,15 +14,24 @@ const PantallaUsuario = ({ user }) => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        // Solo cargar datos de usuarios si el usuario actual es admin
         if (user && user.rango === 'admin') {
-            fetch('http://localhost:8000/users')
-                .then(response => response.json())
+            fetch('http://localhost:8000/users', {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Unauthorized');
+                    }
+                    return response.json();
+                })
                 .then(userData => {
                     setUsers(userData);
                 })
                 .catch(error => {
-                    console.error('Error al cargar usuarios:', error);
+                    console.error('Error al cargar usuarios:', error.message);
                 });
         }
     }, [user]);
@@ -45,7 +56,6 @@ const PantallaUsuario = ({ user }) => {
                     {(user.rango === 'admin' || user.rango === 'vendedor') && (
                         <p>Rango: {user.rango}</p>
                     )}
-                    {/* Mostrar lista de usuarios solo si el usuario es admin */}
                     {user.rango === 'admin' && (
                         <>
                             <Button onClick={() => setShowUserList(!showUserList)}>
@@ -81,7 +91,7 @@ PantallaUsuario.propTypes = {
         username: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,
         rango: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
 };
 
 export default PantallaUsuario;

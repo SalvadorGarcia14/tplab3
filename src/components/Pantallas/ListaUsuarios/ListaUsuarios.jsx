@@ -1,50 +1,71 @@
-import { useState, useEffect } from 'react';
-import { Card } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+// ListaUsuarios.jsx
 
-const ListaUsuarios = ({ user }) => {
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { Card, Button } from 'react-bootstrap';
+
+const ListaUsuarios = () => {
     const [users, setUsers] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Solo cargar datos de usuarios si el usuario actual es admin
-        if (user && user.rango === 'admin') {
-            fetch('http://localhost:8000/users')
-                .then(response => response.json())
-                .then(userData => {
-                    setUsers(userData);
-                })
-                .catch(error => {
-                    console.error('Error al cargar usuarios:', error);
+        const fetchUsers = async () => {
+            try {
+                const accessToken = localStorage.getItem('accessToken');
+                const response = await fetch('http://localhost:8000/users', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
                 });
-        }
-    }, [user]);
+                if (!response.ok) {
+                    throw new Error('Error al obtener usuarios');
+                }
+                const data = await response.json();
+                setUsers(data);
+            } catch (error) {
+                setError(error.message);
+            }
+        };
+
+        fetchUsers();
+    }, []);
 
     return (
-        <Card className="mt-3">
-            <Card.Header>Usuarios Registrados</Card.Header>
-            <Card.Body>
-                {users.map(u => (
-                    <Card key={u.id} className="mb-2">
-                        <Card.Body>
-                            <Card.Title>{u.firstName} {u.lastName}</Card.Title>
-                            <Card.Text>
-                                <strong>Username:</strong> {u.username}<br />
-                                <strong>Email:</strong> {u.email}<br />
-                                <strong>Status:</strong> {u.status ? 'Activo' : 'Inactivo'}
-                            </Card.Text>
-                            {/* Aquí puedes agregar más detalles si es necesario */}
-                        </Card.Body>
-                    </Card>
-                ))}
-            </Card.Body>
-        </Card>
+        <div className="lista-usuarios-container">
+            {error && <p>Error: {error}</p>}
+            {users.map((user) => (
+                <Card key={user.id} style={{ width: '18rem', margin: '10px' }}>
+                    <Card.Body>
+                        <Card.Title>{user.firstName} {user.lastName}</Card.Title>
+                        <Card.Text>
+                            <strong>Username:</strong> {user.username} <br />
+                            <strong>Email:</strong> {user.email} <br />
+                            <strong>Rango:</strong> {user.rango} <br />
+                            <strong>Status:</strong> {user.status ? 'Activo' : 'Inactivo'}
+                        </Card.Text>
+                        {/* Botón de eliminar usuario solo si el usuario logueado es admin */}
+                        {user.rango === 'admin' && (
+                            <Button variant="danger">
+                                Eliminar Usuario
+                            </Button>
+                        )}
+                    </Card.Body>
+                </Card>
+            ))}
+        </div>
     );
 };
 
 ListaUsuarios.propTypes = {
     user: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        firstName: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
         rango: PropTypes.string.isRequired,
-    }).isRequired,
+        status: PropTypes.bool.isRequired,
+    }),
 };
 
 export default ListaUsuarios;
