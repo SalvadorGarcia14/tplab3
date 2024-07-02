@@ -11,37 +11,46 @@ const App = () => {
     const [searchValue, setSearchValue] = useState('');
 
     useEffect(() => {
-        // Recuperar el estado del usuario desde localStorage al montar el componente
         const savedUser = localStorage.getItem('user');
         if (savedUser) {
             setUser(JSON.parse(savedUser));
         }
-    }, []);
+    }, []); // Solo se ejecuta una vez al cargar la aplicación
 
     const handleLogin = (loggedInUser) => {
         setUser(loggedInUser);
-        // Guardar el estado del usuario en localStorage
         localStorage.setItem('user', JSON.stringify(loggedInUser));
     };
 
     const handleLogout = () => {
         setUser(null);
-        setSearchValue(''); // Limpiar el valor de búsqueda al cerrar sesión
-        // Eliminar el estado del usuario de localStorage
+        setSearchValue('');
         localStorage.removeItem('user');
     };
 
     return (
         <Router>
-            {user && <NavBar searchValue={searchValue} setSearchValue={setSearchValue} />}
+            <NavBar 
+                searchValue={searchValue} 
+                setSearchValue={setSearchValue} 
+                user={user} 
+                onLogout={handleLogout} 
+            />
             <div className="container mt-3">
                 <Routes>
                     <Route 
                         path="/" 
-                        element={user ? <Dashboard user={user} onLogout={handleLogout} searchValue={searchValue} /> : <Login onLogin={handleLogin} />} 
+                        element={<Dashboard user={user} searchValue={searchValue} />} 
                     />
-                    <Route path="/pantallaProduto" element={<PantallaProduto />} />
-                    <Route path="/pantallaUsuario" element={<PantallaUsuario user={user} />} />
+                    <Route path="/login" element={<Login onLogin={handleLogin} />} />
+                    <Route 
+                        path="/pantallaProduto" 
+                        element={<PantallaProduto />} 
+                    />
+                    <Route 
+                        path="/pantallaUsuario" 
+                        element={<PantallaUsuario user={user}/>} 
+                    />
                 </Routes>
             </div>
         </Router>

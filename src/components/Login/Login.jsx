@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({ onLogin }) => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -11,7 +13,7 @@ const Login = ({ onLogin }) => {
         e.preventDefault();
         setError(null);
 
-        const credentials = btoa(`${username}:${password}`); // Codificar credenciales en base64
+        const credentials = btoa(`${username}:${password}`);
 
         try {
             const response = await fetch('http://localhost:8000/login', {
@@ -28,14 +30,11 @@ const Login = ({ onLogin }) => {
             }
 
             const data = await response.json();
-
-            // Almacena el token de acceso en localStorage
             localStorage.setItem('accessToken', data.accessToken);
 
-            // Realiza la solicitud GET a /users con el token de acceso
             const usersResponse = await fetch('http://localhost:8000/users', {
                 headers: {
-                    Authorization: `Bearer ${data.accessToken}`,
+                    'Authorization': `Bearer ${data.accessToken}`,
                 },
             });
 
@@ -44,22 +43,18 @@ const Login = ({ onLogin }) => {
             }
 
             const usersData = await usersResponse.json();
-            console.log('Usuarios:', usersData); // Verificar la estructura de la respuesta
-
-            // Buscar el usuario con el nombre de usuario proporcionado
             const user = usersData.find(u => u.username === username);
 
             if (!user) {
                 throw new Error('Usuario no encontrado');
             }
 
-            // Verificar el estado del usuario
             if (!user.status) {
                 throw new Error('Usuario no activado. Por favor, contacta al administrador.');
             }
 
-            // Si el usuario está activo, llamamos a onLogin con los datos del usuario
             onLogin(user);
+            navigate('/'); // Navegar al Dashboard después del login exitoso
 
         } catch (error) {
             setError(error.message || 'Error al conectar con la API');

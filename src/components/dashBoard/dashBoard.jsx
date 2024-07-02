@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import Producto from '../Productos/producto';
 
-const Dashboard = ({ user, onLogout, searchValue }) => {
+const Dashboard = ({ user, searchValue }) => {
     const [componentsList, setComponentsList] = useState([]);
 
     useEffect(() => {
@@ -19,7 +19,6 @@ const Dashboard = ({ user, onLogout, searchValue }) => {
 
     const addToCartHandler = (componente) => {
         console.log(`Agregando al carrito: ${componente.name}`);
-        // Aquí puedes manejar la lógica para agregar al carrito
     };
 
     const handleRemoveProduct = async (productId) => {
@@ -38,7 +37,6 @@ const Dashboard = ({ user, onLogout, searchValue }) => {
                 throw new Error('Error al eliminar el producto');
             }
 
-            // Actualizar la lista de componentes después de eliminar
             const updatedComponents = componentsList.filter(c => c.id !== productId);
             setComponentsList(updatedComponents);
 
@@ -58,18 +56,16 @@ const Dashboard = ({ user, onLogout, searchValue }) => {
                 <Col className="d-flex justify-content-center" md={6}>
                     <h1>PC Componentes</h1>
                 </Col>
-                <Col className="d-flex justify-content-end align-items-center me-4 mt-2">
-                    <Button onClick={onLogout}>Cerrar sesión</Button>
-                </Col>
+                <Col />
             </Row>
-            <p>Bienvenido, {user.firstName}!</p>
+            {user && <p>Bienvenido, {user.firstName}!</p>}
             <div className="d-flex flex-wrap">
                 {filteredComponents.map(componente => (
                     <Producto
                         key={componente.id}
                         componente={componente}
                         onAddToCart={addToCartHandler}
-                        isAdminOrVendedor={user.rango === 'admin' || user.rango === 'vendedor'}
+                        isAdminOrVendedor={user && (user.rango === 'admin' || user.rango === 'vendedor')}
                         onRemoveProduct={handleRemoveProduct}
                     />
                 ))}
@@ -79,8 +75,7 @@ const Dashboard = ({ user, onLogout, searchValue }) => {
 };
 
 Dashboard.propTypes = {
-    user: PropTypes.object.isRequired,
-    onLogout: PropTypes.func.isRequired,
+    user: PropTypes.object,
     searchValue: PropTypes.string.isRequired,
 };
 
