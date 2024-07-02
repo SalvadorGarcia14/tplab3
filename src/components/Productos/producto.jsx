@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
+import ModificarProducto from '../Productos/ModificarProducto/modificarProducto'; // Importar ModificarProducto aquí
 
 const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct }) => {
     const [isAdded, setIsAdded] = useState(false);
@@ -12,6 +13,19 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct 
 
     const handleRemoveProduct = () => {
         onRemoveProduct(componente.id);
+    };
+
+    const handleSaveChanges = (editedProduct) => {
+        // Actualizar localmente el producto con los cambios guardados
+        console.log('Guardar cambios:', editedProduct);
+        const updatedProduct = {
+            ...componente,
+            name: editedProduct.name,
+            precio: editedProduct.precio,
+            status: editedProduct.status,
+            imagen: editedProduct.imagen,
+        };
+        onRemoveProduct(updatedProduct);
     };
 
     return (
@@ -35,9 +49,12 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct 
                             </Button>
                         )}
                         {isAdminOrVendedor && (
-                            <Button variant="danger" onClick={handleRemoveProduct}>
-                                Quitar producto
-                            </Button>
+                            <>
+                                <ModificarProducto producto={componente} onSave={handleSaveChanges} />
+                                <Button variant="danger" onClick={handleRemoveProduct}>
+                                    Quitar producto
+                                </Button>
+                            </>
                         )}
                     </>
                 ) : (
