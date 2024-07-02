@@ -36,6 +36,7 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct 
                 <Card.Text>
                     Precio: {componente.precio} <br />
                     Stock: {componente.status ? 'Disponible' : 'Agotado'}
+                    {isAdminOrVendedor && <p>Cantidad: {componente.cantidad}</p>}
                 </Card.Text>
                 {componente.status ? (
                     <>
@@ -74,6 +75,7 @@ Producto.propTypes = {
         name: PropTypes.string.isRequired,
         precio: PropTypes.number.isRequired,
         status: PropTypes.bool.isRequired,
+        cantidad: PropTypes.number.isRequired, // Asegúrate de agregar cantidad aquí
     }).isRequired,
     onAddToCart: PropTypes.func.isRequired,
     isAdminOrVendedor: PropTypes.bool.isRequired,
