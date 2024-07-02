@@ -10,7 +10,9 @@ const Dashboard = ({ user, searchValue }) => {
         fetch('http://localhost:8000/Componentes')
             .then(response => response.json())
             .then(componentData => {
-                setComponentsList(componentData);
+                // Filtrar solo los componentes con status: true
+                const filteredComponents = componentData.filter(componente => componente.status);
+                setComponentsList(filteredComponents);
             })
             .catch(error => {
                 console.error('Error al cargar componentes:', error);

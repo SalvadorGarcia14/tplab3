@@ -16,7 +16,7 @@ const NavBar = ({ searchValue, setSearchValue, user, onLogout }) => {
                 <Nav.Link as={Link} to="/pantallaProduto">PRODUCTOS</Nav.Link>
                 <Nav.Link as={Link} to="/pantallaUsuario">PERFIL</Nav.Link> 
             </Nav>
-            <Form inline="true" className="ml-auto d-flex align-items-center">
+            <Form inline className="ml-auto d-flex align-items-center">
                 <FormControl 
                     type="text" 
                     placeholder="Buscar componente..." 
