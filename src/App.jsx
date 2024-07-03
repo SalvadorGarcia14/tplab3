@@ -4,7 +4,8 @@ import NavBar from './components/NavBar/Navbar';
 import Dashboard from './components/dashBoard/dashBoard';
 import Login from './components/Login/Login';
 import PantallaProduto from './components/Pantallas/pantallaProduto/pantallaProducto';
-import PantallaUsuario from './components/Pantallas/pantallaUsuario/pantallaUsuario'; // No es necesario importar PantallaCarrito aquí
+import PantallaUsuario from './components/Pantallas/pantallaUsuario/pantallaUsuario';
+import PantallaCarrito from './components/Pantallas/pantallaCarrito/pantallaCarrito';
 
 const App = () => {
     const [user, setUser] = useState(null);
@@ -30,7 +31,23 @@ const App = () => {
     };
 
     const addToCartHandler = (componente) => {
-        setCarrito(prevCarrito => [...prevCarrito, componente]);
+        setCarrito(prevCarrito => {
+            const existingProduct = prevCarrito.find(item => item.id === componente.id);
+            if (existingProduct) {
+                return prevCarrito.map(item =>
+                    item.id === componente.id
+                        ? { ...item, cantidadEnCarrito: item.cantidadEnCarrito + 1 }
+                        : item
+                );
+            } else {
+                return [...prevCarrito, { ...componente, cantidadEnCarrito: 1 }];
+            }
+        });
+    };
+
+    const removeFromCartHandler = (componente) => {
+        const updatedCarrito = carrito.filter(item => item.id !== componente.id);
+        setCarrito(updatedCarrito);
     };
 
     return (
@@ -56,6 +73,10 @@ const App = () => {
                     <Route 
                         path="/pantallaUsuario" 
                         element={<PantallaUsuario user={user}/>} 
+                    />
+                    <Route 
+                        path="/pantallaCarrito" 
+                        element={<PantallaCarrito carrito={carrito} removeFromCart={removeFromCartHandler} />} 
                     />
                 </Routes>
             </div>

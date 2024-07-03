@@ -2,12 +2,9 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-bootstrap';
 import Producto from '../Productos/producto';
-import AgregarCarrito from '../agregarCarrito/agregarCarrito';
-import PantallaCarrito from '../Pantallas/pantallaCarrito/pantallaCarrito';
 
-const Dashboard = ({ user, searchValue }) => {
+const Dashboard = ({ user, searchValue, addToCart }) => {
     const [componentsList, setComponentsList] = useState([]);
-    const [carrito, setCarrito] = useState([]); // Estado del carrito
 
     useEffect(() => {
         fetch('http://localhost:8000/Componentes')
@@ -23,7 +20,8 @@ const Dashboard = ({ user, searchValue }) => {
     }, []);
 
     const addToCartHandler = (componente) => {
-        setCarrito(prevCarrito => [...prevCarrito, componente]); // Agregar componente al carrito
+        console.log(`Agregando al carrito: ${componente.name}`);
+        addToCart(componente); // Llamar a la función pasada por props para agregar al carrito
     };
 
     const handleRemoveProduct = async (productId) => {
@@ -75,14 +73,6 @@ const Dashboard = ({ user, searchValue }) => {
                     />
                 ))}
             </div>
-            <Row>
-                <Col>
-                    <AgregarCarrito componentes={filteredComponents} onAddToCart={addToCartHandler} />
-                </Col>
-                <Col>
-                    <PantallaCarrito carrito={carrito} />
-                </Col>
-            </Row>
         </>
     );
 };
@@ -90,6 +80,7 @@ const Dashboard = ({ user, searchValue }) => {
 Dashboard.propTypes = {
     user: PropTypes.object,
     searchValue: PropTypes.string.isRequired,
+    addToCart: PropTypes.func.isRequired, // Añadir propType para la función addToCart
 };
 
 export default Dashboard;
