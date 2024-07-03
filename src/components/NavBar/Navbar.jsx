@@ -8,13 +8,14 @@ const NavBar = ({ searchValue, setSearchValue, user, onLogout }) => {
     const handleLoginRedirect = () => {
         navigate('/login');
     };
+    //                <Nav.Link as={Link} to="/pantallaProduto">PRODUCTOS</Nav.Link>
+
 
     return (
         <Navbar bg="dark" variant="dark" className="border-bottom border-body">
             <Navbar.Brand as={Link} to="/">PC Componentes</Navbar.Brand>
             <Nav className="mr-auto">
                 <Nav.Link as={Link} to="/pantallaUsuario">PERFIL</Nav.Link>            
-                <Nav.Link as={Link} to="/pantallaProduto">PRODUCTOS</Nav.Link>
             </Nav>
             <Form inline className="ml-auto d-flex align-items-center">
                 <FormControl
