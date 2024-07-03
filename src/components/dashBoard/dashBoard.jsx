@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-bootstrap';
 import Producto from '../Productos/producto';
+import AgregarCarrito from '../agregarCarrito/agregarCarrito';
+import PantallaCarrito from '../Pantallas/pantallaCarrito/pantallaCarrito';
 
 const Dashboard = ({ user, searchValue }) => {
     const [componentsList, setComponentsList] = useState([]);
+    const [carrito, setCarrito] = useState([]); // Estado del carrito
 
     useEffect(() => {
         fetch('http://localhost:8000/Componentes')
@@ -20,7 +23,7 @@ const Dashboard = ({ user, searchValue }) => {
     }, []);
 
     const addToCartHandler = (componente) => {
-        console.log(`Agregando al carrito: ${componente.name}`);
+        setCarrito(prevCarrito => [...prevCarrito, componente]); // Agregar componente al carrito
     };
 
     const handleRemoveProduct = async (productId) => {
@@ -72,6 +75,14 @@ const Dashboard = ({ user, searchValue }) => {
                     />
                 ))}
             </div>
+            <Row>
+                <Col>
+                    <AgregarCarrito componentes={filteredComponents} onAddToCart={addToCartHandler} />
+                </Col>
+                <Col>
+                    <PantallaCarrito carrito={carrito} />
+                </Col>
+            </Row>
         </>
     );
 };

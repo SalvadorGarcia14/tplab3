@@ -1,21 +1,20 @@
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+//import PantallaCarrito from '../Pantallas/pantallaCarrito/pantallaCarrito'; // Importar PantallaCarrito
 
-const NavBar = ({ searchValue, setSearchValue, user, onLogout }) => {
+const NavBar = ({ searchValue, setSearchValue, user, onLogout,  }) => {
     const navigate = useNavigate();
 
     const handleLoginRedirect = () => {
         navigate('/login');
     };
-    //                <Nav.Link as={Link} to="/pantallaProduto">PRODUCTOS</Nav.Link>
-
 
     return (
         <Navbar bg="dark" variant="dark" className="border-bottom border-body">
             <Navbar.Brand as={Link} to="/">PC Componentes</Navbar.Brand>
             <Nav className="mr-auto">
-                <Nav.Link as={Link} to="/pantallaUsuario">PERFIL</Nav.Link>            
+                <Nav.Link as={Link} to="/pantallaUsuario">PERFIL</Nav.Link>
             </Nav>
             <Form inline className="ml-auto d-flex align-items-center">
                 <FormControl
@@ -26,7 +25,9 @@ const NavBar = ({ searchValue, setSearchValue, user, onLogout }) => {
                     onChange={(e) => setSearchValue(e.target.value)}
                 />
                 {user ? (
-                    <Button variant="outline-light" onClick={onLogout}>Cerrar Sesión</Button>
+                    <>
+                        <Button variant="outline-light" onClick={onLogout}>Cerrar Sesión</Button>
+                    </>
                 ) : (
                     <Button variant="outline-light" onClick={handleLoginRedirect}>Iniciar Sesión</Button>
                 )}
@@ -40,6 +41,7 @@ NavBar.propTypes = {
     setSearchValue: PropTypes.func.isRequired,
     user: PropTypes.object,
     onLogout: PropTypes.func.isRequired,
+    carrito: PropTypes.array.isRequired, // Asegurar que carrito es un array
 };
 
 export default NavBar;
