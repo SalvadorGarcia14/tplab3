@@ -34,7 +34,7 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct 
                 <Card.Title>{componente.name}</Card.Title>
                 <Card.Text>
                     Precio: ${componente.precio} <br />
-                    Stock: {componente.status ? `Disponible`:'Agotado'}
+                    Stock: {componente.status ? `Disponible` : 'Agotado'}
                     {isAdminOrVendedor && <span>Cantidad: {componente.cantidad}</span>}
                 </Card.Text>
                 {componente.status ? (

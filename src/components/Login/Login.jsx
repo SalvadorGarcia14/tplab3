@@ -2,6 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import Registrar from '../Login/Registrar/Registrar'; // Importa el componente Registrar
 
 const Login = ({ onLogin }) => {
     const navigate = useNavigate();
@@ -9,7 +10,7 @@ const Login = ({ onLogin }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-    const handleSubmit = async (e) => {
+    const handleSubmitLogin = async (e) => {
         e.preventDefault();
         setError(null);
 
@@ -53,7 +54,7 @@ const Login = ({ onLogin }) => {
                 throw new Error('Usuario no activado. Por favor, contacta al administrador.');
             }
 
-            onLogin(user);
+            onLogin(user, data.accessToken); // Pasa el usuario y el token de acceso a onLogin
             navigate('/'); // Navegar al Dashboard después del login exitoso
 
         } catch (error) {
@@ -61,11 +62,19 @@ const Login = ({ onLogin }) => {
         }
     };
 
+    const handleUserRegistered = async (userData) => {
+        // Aquí puedes implementar la lógica para manejar el registro de usuario
+        // Puedes guardar userData en tu estado local si lo necesitas
+        console.log('Usuario registrado:', userData);
+        // Opcionalmente, puedes redirigir al usuario después de registrarse
+        navigate('/'); // Por ejemplo, navega al Dashboard después del registro exitoso
+    };
+
     return (
         <div className="login-container">
             <h2>Iniciar sesión</h2>
             {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmitLogin}>
                 <Form.Group controlId="formUsername">
                     <Form.Label>Nombre de usuario</Form.Label>
                     <Form.Control
@@ -90,6 +99,8 @@ const Login = ({ onLogin }) => {
                     Iniciar sesión
                 </Button>
             </Form>
+            <Registrar accessToken={localStorage.getItem('accessToken')} onUserRegistered={handleUserRegistered} />
+            {/* Pasa accessToken y la función handleUserRegistered a Registrar */}
         </div>
     );
 };

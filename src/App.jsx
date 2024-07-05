@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar/Navbar';
 import Dashboard from './components/dashBoard/dashBoard';
-import Login from './components/Login/Login';
+import Login from './components/Login/Login'; // Importa el componente Login
 import PantallaProduto from './components/Pantallas/pantallaProduto/pantallaProducto';
 import PantallaUsuario from './components/Pantallas/pantallaUsuario/pantallaUsuario';
 import PantallaCarrito from './components/Pantallas/pantallaCarrito/pantallaCarrito';
@@ -82,9 +82,8 @@ const App = () => {
             }
 
             const data = await response.json();
-            setCompras(prevCompras => [...prevCompras, data]); // Almacenar la compra en el estado de compras
+            setCompras(prevCompras => [...prevCompras, data]);
 
-            // Actualizar cantidad disponible en database.json
             compra.items.forEach(async item => {
                 try {
                     const response = await fetch(`http://localhost:8000/Componentes/${item.id}`, {
@@ -126,10 +125,13 @@ const App = () => {
                         path="/"
                         element={<Dashboard user={user} searchValue={searchValue} addToCart={addToCartHandler} />}
                     />
-                    <Route path="/login" element={<Login onLogin={handleLogin} />} />
+                    <Route
+                        path="/login"
+                        element={<Login onLogin={handleLogin} />}
+                    />
                     <Route
                         path="/pantallaProduto"
-                        element={<PantallaProduto />}
+                        element={<PantallaProduto addToCartHandler={addToCartHandler} />}
                     />
                     <Route
                         path="/pantallaUsuario"
