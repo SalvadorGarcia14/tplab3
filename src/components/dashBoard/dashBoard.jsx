@@ -72,6 +72,7 @@ const Dashboard = ({ user, searchValue, addToCart }) => {
                         onAddToCart={addToCartHandler}
                         isAdminOrVendedor={user && (user.rango === 'admin' || user.rango === 'vendedor')}
                         onRemoveProduct={handleRemoveProduct}
+                        user={user} // Pasar el usuario al componente Producto
                     />
                 ))}
             </div>

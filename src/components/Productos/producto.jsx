@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
 import ModificarProducto from '../Productos/ModificarProducto/modificarProducto';
 
-const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct }) => {
+const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct, user }) => {
     const [isAdded, setIsAdded] = useState(false);
 
     const handleAddToCart = () => {
@@ -30,12 +30,11 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct 
     };
 
     if (componente.cantidad === 0 && componente.status) {
-        // Si la cantidad es 0 y el status es true, actualizar el estado del producto
         const updatedProduct = {
             ...componente,
             status: false
         };
-        handleSaveChanges(updatedProduct); // Llamar a la función para guardar los cambios
+        handleSaveChanges(updatedProduct);
     }
 
     return (
@@ -48,7 +47,7 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct 
                     Stock: {componente.cantidad > 0 ? 'Disponible' : 'Agotado'}
                     {isAdminOrVendedor && <span>Cantidad: {componente.cantidad}</span>}
                 </Card.Text>
-                {!isAdded && componente.cantidad > 0 && (
+                {!isAdded && componente.cantidad > 0 && user && (
                     <Button variant="primary" onClick={handleAddToCart}>
                         Agregar al carrito
                     </Button>
@@ -78,6 +77,7 @@ Producto.propTypes = {
     onAddToCart: PropTypes.func.isRequired,
     isAdminOrVendedor: PropTypes.bool.isRequired,
     onRemoveProduct: PropTypes.func.isRequired,
+    user: PropTypes.object, // Agregar el usuario a las propTypes
 };
 
 export default Producto;
