@@ -154,6 +154,7 @@ const App = () => {
                                 setCarrito={setCarrito}
                                 removeFromCart={removeFromCartHandler}
                                 onCompraRealizada={handleCompraRealizada}
+                                user={user}
                             />
                         }
                     />

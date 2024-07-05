@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button, Alert, Image } from 'react-bootstrap';
 
-const PantallaCarrito = ({ carrito, setCarrito, onCompraRealizada }) => {
+const PantallaCarrito = ({ user, carrito, setCarrito, onCompraRealizada }) => {
     const [showAlert, setShowAlert] = useState(false);
     const [showCompraRealizada, setShowCompraRealizada] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
@@ -52,6 +52,10 @@ const PantallaCarrito = ({ carrito, setCarrito, onCompraRealizada }) => {
         }
     };
 
+    if (!user) {
+        return <Alert variant="danger">No hay usuario autenticado</Alert>;
+    }
+
     return (
         <Card style={{ width: '18rem', margin: '10px' }}>
             <Card.Body>
@@ -83,6 +87,7 @@ const PantallaCarrito = ({ carrito, setCarrito, onCompraRealizada }) => {
 };
 
 PantallaCarrito.propTypes = {
+    user: PropTypes.object,
     carrito: PropTypes.array.isRequired,
     setCarrito: PropTypes.func.isRequired,
     onCompraRealizada: PropTypes.func.isRequired,
