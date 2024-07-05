@@ -11,10 +11,13 @@ const CrearUsuario = ({ onUserCreated }) => {
     const [status, setStatus] = useState(true); // Default to true
     const [rango, setRango] = useState('cliente'); // Default to 'cliente'
     const [error, setError] = useState(null);
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+        setShowAlert(false); // Ocultar cualquier alerta previa
 
         const accessToken = localStorage.getItem('accessToken'); // Obtén el token de acceso de localStorage
 
@@ -24,13 +27,23 @@ const CrearUsuario = ({ onUserCreated }) => {
         }
 
         try {
+            const formData = {
+                firstName,
+                lastName,
+                username,
+                password,
+                email,
+                status,
+                rango,
+            };
+
             const response = await fetch('http://localhost:8000/users', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`, // Incluye el token en los encabezados
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ firstName, lastName, username, password, email, status, rango }),
+                body: JSON.stringify(formData),
             });
 
             if (!response.ok) {
@@ -39,6 +52,19 @@ const CrearUsuario = ({ onUserCreated }) => {
 
             const data = await response.json();
             onUserCreated(data);
+
+            // Mostrar la alerta de éxito
+            setShowAlert(true);
+            setAlertMessage(`Se agregó "${username}" correctamente.`);
+
+            // Limpiar el formulario después de crear el usuario
+            setFirstName('');
+            setLastName('');
+            setUsername('');
+            setPassword('');
+            setEmail('');
+            setStatus(true);
+            setRango('cliente');
 
         } catch (error) {
             setError(error.message || 'Error al conectar con la API');
@@ -49,6 +75,7 @@ const CrearUsuario = ({ onUserCreated }) => {
         <div className="crear-usuario-container">
             <h2>Crear Usuario</h2>
             {error && <Alert variant="danger">{error}</Alert>}
+            {showAlert && <Alert variant="success">{alertMessage}</Alert>}
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formFirstName">
                     <Form.Label>Nombre</Form.Label>

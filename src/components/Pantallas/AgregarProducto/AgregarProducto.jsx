@@ -11,6 +11,8 @@ const AgregarProducto = ({ onProductAdded }) => {
     const [marca, setMarca] = useState('');
     const [cantidad, setCantidad] = useState('');
     const [error, setError] = useState(null);
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
 
     // Opciones de marca por componente
     const marcaOptions = {
@@ -23,6 +25,7 @@ const AgregarProducto = ({ onProductAdded }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+        setShowAlert(false); // Ocultar cualquier alerta previa
 
         const accessToken = localStorage.getItem('accessToken');
 
@@ -58,6 +61,19 @@ const AgregarProducto = ({ onProductAdded }) => {
             const data = await response.json();
             onProductAdded(data);
 
+            // Mostrar la alerta de éxito
+            setShowAlert(true);
+            setAlertMessage(`Se agregó "${name}" correctamente.`);
+
+            // Limpiar el formulario después de agregar el producto
+            setName('');
+            setPrecio('');
+            setStatus(true);
+            setImagenUrl('');
+            setComponente('');
+            setMarca('');
+            setCantidad('');
+
         } catch (error) {
             setError(error.message || 'Error al conectar con la API');
         }
@@ -67,6 +83,7 @@ const AgregarProducto = ({ onProductAdded }) => {
         <div className="agregar-producto-container">
             <h2>Agregar Producto</h2>
             {error && <Alert variant="danger">{error}</Alert>}
+            {showAlert && <Alert variant="success">{alertMessage}</Alert>}
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formName">
                     <Form.Label>Nombre del producto</Form.Label>

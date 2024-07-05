@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Button, Modal, Form } from 'react-bootstrap';
+import { Card, Button, Modal, Form, Alert } from 'react-bootstrap';
 
 const ListaUsuarios = () => {
     const [users, setUsers] = useState([]);
@@ -12,8 +12,12 @@ const ListaUsuarios = () => {
         lastName: '',
         username: '',
         email: '',
+        rango: '', // Nuevo campo para el rango del usuario
         status: false, // Nuevo campo para el estado del usuario
     });
+    const [alertMessage, setAlertMessage] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertType, setAlertType] = useState('success'); // 'success' or 'danger'
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -50,9 +54,16 @@ const ListaUsuarios = () => {
                 throw new Error('Error al eliminar usuario');
             }
             // Actualizar la lista de usuarios después de eliminar
+            const deletedUser = users.find(user => user.id === userId);
             setUsers(users.filter(user => user.id !== userId));
+            setAlertMessage(`Se eliminó "${deletedUser.username}" correctamente.`);
+            setShowAlert(true);
+            setAlertType('success');
         } catch (error) {
             setError(error.message);
+            setAlertMessage('Error al eliminar usuario.');
+            setShowAlert(true);
+            setAlertType('danger');
         }
     };
 
@@ -63,6 +74,7 @@ const ListaUsuarios = () => {
             lastName: user.lastName,
             username: user.username,
             email: user.email,
+            rango: user.rango, // Actualizar el estado del formulario con el rango actual del usuario
             status: user.status, // Actualizar el estado del formulario con el estado actual del usuario
         });
         setShowModal(true);
@@ -76,6 +88,7 @@ const ListaUsuarios = () => {
             lastName: '',
             username: '',
             email: '',
+            rango: '', // Reiniciar el rango a su valor inicial
             status: false, // Reiniciar el estado a su valor inicial
         });
     };
@@ -115,14 +128,21 @@ const ListaUsuarios = () => {
             const updatedUser = await response.json();
             setUsers(users.map(user => user.id === updatedUser.id ? updatedUser : user));
             handleCloseModal();
+            setAlertMessage(`Se modificó "${updatedUser.username}" correctamente.`);
+            setShowAlert(true);
+            setAlertType('success');
         } catch (error) {
             setError(error.message);
+            setAlertMessage('Error al modificar usuario.');
+            setShowAlert(true);
+            setAlertType('danger');
         }
     };
 
     return (
         <div className="lista-usuarios-container">
-            {error && <p>Error: {error}</p>}
+            {error && <Alert variant="danger">{error}</Alert>}
+            {showAlert && <Alert variant={alertType}>{alertMessage}</Alert>}
             {users.map((user) => (
                 <Card key={user.id} style={{ width: '18rem', margin: '10px' }}>
                     <Card.Body>
@@ -185,6 +205,20 @@ const ListaUsuarios = () => {
                                 onChange={handleChange}
                                 required
                             />
+                        </Form.Group>
+                        <Form.Group controlId="formRango">
+                            <Form.Label>Rango</Form.Label>
+                            <Form.Control
+                                as="select"
+                                name="rango"
+                                value={formData.rango}
+                                onChange={handleChange}
+                                required
+                            >
+                                <option value="cliente">Cliente</option>
+                                <option value="vendedor">Vendedor</option>
+                                <option value="admin">Administrador</option>
+                            </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="formStatus">
                             <Form.Check
