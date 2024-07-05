@@ -14,7 +14,7 @@ const PantallaUsuario = ({ user, compras }) => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        if (user && user.rango === 'admin') {
+        if (user && (user.rango === 'admin' || user.rango === 'vendedor')) {
             fetch('http://localhost:8000/users', {
                 method: 'GET',
                 headers: {
@@ -70,6 +70,10 @@ const PantallaUsuario = ({ user, compras }) => {
                                 {showCreateUser ? 'Ocultar Crear Usuario' : 'Crear Usuario'}
                             </Button>
                             {showCreateUser && <CrearUsuario onUserCreated={handleUserCreated} />}
+                        </>
+                    )}
+                    {user.rango === 'admin' || user.rango === 'vendedor' && (
+                        <>
                             <Button onClick={() => setShowAddProduct(!showAddProduct)}>
                                 {showAddProduct ? 'Ocultar Agregar Producto' : 'Agregar Producto'}
                             </Button>

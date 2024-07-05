@@ -9,7 +9,7 @@ const ListaCompras = ({ compras }) => {
                 compras.map((compra, index) => (
                     <Card key={index} style={{ marginBottom: '10px' }}>
                         <Card.Body>
-                            <Card.Title>Compra #{compra.id}</Card.Title>
+                            <Card.Title>Compra #{index + 1}</Card.Title> {/* Ajuste aquí */}
                             <Card.Text>
                                 Fecha de Compra: {new Date(compra.createdAt).toLocaleDateString()}
                                 <ul>

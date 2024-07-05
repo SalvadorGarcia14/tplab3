@@ -83,6 +83,28 @@ const App = () => {
 
             const data = await response.json();
             setCompras(prevCompras => [...prevCompras, data]); // Almacenar la compra en el estado de compras
+
+            // Actualizar cantidad disponible en database.json
+            compra.items.forEach(async item => {
+                try {
+                    const response = await fetch(`http://localhost:8000/Componentes/${item.id}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ cantidad: item.cantidad - item.cantidadEnCarrito }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Error al actualizar stock del producto');
+                    }
+
+                    // Actualizar state o base de datos local aquí si es necesario
+                } catch (error) {
+                    console.error(`Error al actualizar stock del producto con id ${item.id}:`, error);
+                }
+            });
+
             console.log('Compra realizada con éxito:', data);
         } catch (error) {
             console.error('Error al realizar la compra:', error);
@@ -111,7 +133,16 @@ const App = () => {
                     />
                     <Route
                         path="/pantallaUsuario"
-                        element={<PantallaUsuario user={user} compras={compras} carrito={carrito} setCarrito={setCarrito} removeFromCart={removeFromCartHandler} onCompraRealizada={handleCompraRealizada} />}
+                        element={
+                            <PantallaUsuario
+                                user={user}
+                                compras={compras}
+                                carrito={carrito}
+                                setCarrito={setCarrito}
+                                removeFromCart={removeFromCartHandler}
+                                onCompraRealizada={handleCompraRealizada}
+                            />
+                        }
                     />
                     <Route
                         path="/pantallaCarrito"

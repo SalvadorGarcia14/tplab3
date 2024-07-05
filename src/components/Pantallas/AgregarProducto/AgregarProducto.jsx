@@ -7,13 +7,23 @@ const AgregarProducto = ({ onProductAdded }) => {
     const [precio, setPrecio] = useState('');
     const [status, setStatus] = useState(true); // Default to available
     const [imagenUrl, setImagenUrl] = useState(''); // For image URL instead of file upload
+    const [componente, setComponente] = useState('');
+    const [marca, setMarca] = useState('');
     const [error, setError] = useState(null);
+
+    // Opciones de marca por componente
+    const marcaOptions = {
+        cpu: ['AMD', 'Intel'],
+        mother: ['ASUS', 'Asrock'],
+        memoriaram: ['Patriot', 'Team'],
+        gpu: ['Nvidia', 'AMD'],
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
 
-        const accessToken = localStorage.getItem('accessToken'); // Obtén el token de acceso de localStorage
+        const accessToken = localStorage.getItem('accessToken');
 
         if (!accessToken) {
             setError('No se encontró el token de acceso. Por favor, inicia sesión.');
@@ -25,13 +35,15 @@ const AgregarProducto = ({ onProductAdded }) => {
                 name,
                 precio,
                 status,
-                imagen: imagenUrl, // Use imagenUrl instead of formData for file upload
+                imagen: imagenUrl,
+                componente,
+                marca,
             };
 
-            const response = await fetch('http://localhost:8000/Componentes', { // Ajuste aquí
+            const response = await fetch('http://localhost:8000/Componentes', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`, // Incluye el token en los encabezados
+                    'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
@@ -82,6 +94,40 @@ const AgregarProducto = ({ onProductAdded }) => {
                         onChange={(e) => setStatus(e.target.checked)}
                     />
                 </Form.Group>
+                <Form.Group controlId="formComponente">
+                    <Form.Label>Componente</Form.Label>
+                    <Form.Control
+                        as="select"
+                        value={componente}
+                        onChange={(e) => {
+                            setComponente(e.target.value);
+                            setMarca('');
+                        }}
+                        required
+                    >
+                        <option value="">Selecciona un componente</option>
+                        <option value="cpu">CPU</option>
+                        <option value="mother">Motherboard</option>
+                        <option value="memoriaram">Memoria RAM</option>
+                        <option value="gpu">GPU</option>
+                    </Form.Control>
+                </Form.Group>
+                {componente && (
+                    <Form.Group controlId="formMarca">
+                        <Form.Label>Marca</Form.Label>
+                        <Form.Control
+                            as="select"
+                            value={marca}
+                            onChange={(e) => setMarca(e.target.value)}
+                            required
+                        >
+                            <option value="">Selecciona una marca</option>
+                            {marcaOptions[componente].map((marcaOption) => (
+                                <option key={marcaOption} value={marcaOption}>{marcaOption}</option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
+                )}
                 <Form.Group controlId="formImagenUrl">
                     <Form.Label>URL de la imagen del producto</Form.Label>
                     <Form.Control

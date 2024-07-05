@@ -10,7 +10,17 @@ const ModificarProducto = ({ producto, onSave }) => {
         precio: producto.precio,
         status: producto.status,
         imagen: producto.imagen,
+        componente: producto.componente || '', // Asegúrate de manejar valores nulos
+        marca: producto.marca || '', // Asegúrate de manejar valores nulos
     });
+
+    // Opciones de marca por componente
+    const marcaOptions = {
+        cpu: ['AMD', 'Intel'],
+        mother: ['ASUS', 'Asrock'],
+        memoriaram: ['Patriot', 'Team'],
+        gpu: ['Nvidia', 'AMD'],
+    };
 
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
@@ -71,6 +81,39 @@ const ModificarProducto = ({ producto, onSave }) => {
                                 required
                             />
                         </Form.Group>
+                        <Form.Group controlId="formComponente">
+                            <Form.Label>Componente</Form.Label>
+                            <Form.Control
+                                as="select"
+                                name="componente"
+                                value={editedProduct.componente}
+                                onChange={handleChange}
+                                required
+                            >
+                                <option value="">Selecciona un componente</option>
+                                <option value="cpu">CPU</option>
+                                <option value="mother">Motherboard</option>
+                                <option value="memoriaram">Memoria RAM</option>
+                                <option value="gpu">GPU</option>
+                            </Form.Control>
+                        </Form.Group>
+                        {editedProduct.componente && (
+                            <Form.Group controlId="formMarca">
+                                <Form.Label>Marca</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    name="marca"
+                                    value={editedProduct.marca}
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <option value="">Selecciona una marca</option>
+                                    {marcaOptions[editedProduct.componente].map((marcaOption) => (
+                                        <option key={marcaOption} value={marcaOption}>{marcaOption}</option>
+                                    ))}
+                                </Form.Control>
+                            </Form.Group>
+                        )}
                         <Form.Group controlId="formPrecio">
                             <Form.Label>Precio</Form.Label>
                             <Form.Control
@@ -121,6 +164,8 @@ ModificarProducto.propTypes = {
         precio: PropTypes.number.isRequired,
         status: PropTypes.bool.isRequired,
         imagen: PropTypes.string.isRequired,
+        componente: PropTypes.string,
+        marca: PropTypes.string,
     }).isRequired,
     onSave: PropTypes.func.isRequired,
 };
