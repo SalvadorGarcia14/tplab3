@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar/Navbar';
 import Dashboard from './components/dashBoard/dashBoard';
-import Login from './components/Login/Login'; // Importa el componente Login
+import Login from './components/Login/Login';
 import PantallaProduto from './components/Pantallas/pantallaProduto/pantallaProducto';
 import PantallaUsuario from './components/Pantallas/pantallaUsuario/pantallaUsuario';
 import PantallaCarrito from './components/Pantallas/pantallaCarrito/pantallaCarrito';
@@ -10,40 +10,46 @@ import PantallaCarrito from './components/Pantallas/pantallaCarrito/pantallaCarr
 const App = () => {
     const [user, setUser] = useState(null);
     const [searchValue, setSearchValue] = useState('');
-    const [carrito, setCarrito] = useState(() => {
-        const savedCarrito = localStorage.getItem('carrito');
-        return savedCarrito ? JSON.parse(savedCarrito) : [];
-    });
-    const [compras, setCompras] = useState(() => {
-        const savedCompras = localStorage.getItem('compras');
-        return savedCompras ? JSON.parse(savedCompras) : [];
-    });
+    const [carrito, setCarrito] = useState([]);
+    const [compras, setCompras] = useState([]);
 
     useEffect(() => {
         const savedUser = localStorage.getItem('user');
         if (savedUser) {
-            setUser(JSON.parse(savedUser));
+            const parsedUser = JSON.parse(savedUser);
+            setUser(parsedUser);
+            const savedCarrito = localStorage.getItem(`carrito_${parsedUser.username}`);
+            const savedCompras = localStorage.getItem(`compras_${parsedUser.username}`);
+            setCarrito(savedCarrito ? JSON.parse(savedCarrito) : []);
+            setCompras(savedCompras ? JSON.parse(savedCompras) : []);
         }
     }, []);
 
     useEffect(() => {
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-    }, [carrito]);
+        if (user) {
+            localStorage.setItem(`carrito_${user.username}`, JSON.stringify(carrito));
+        }
+    }, [carrito, user]);
 
     useEffect(() => {
-        localStorage.setItem('compras', JSON.stringify(compras));
-    }, [compras]);
+        if (user) {
+            localStorage.setItem(`compras_${user.username}`, JSON.stringify(compras));
+        }
+    }, [compras, user]);
 
     const handleLogin = (loggedInUser) => {
         setUser(loggedInUser);
         localStorage.setItem('user', JSON.stringify(loggedInUser));
+        const savedCarrito = localStorage.getItem(`carrito_${loggedInUser.username}`);
+        const savedCompras = localStorage.getItem(`compras_${loggedInUser.username}`);
+        setCarrito(savedCarrito ? JSON.parse(savedCarrito) : []);
+        setCompras(savedCompras ? JSON.parse(savedCompras) : []);
     };
 
     const handleLogout = () => {
         setUser(null);
         setSearchValue('');
         localStorage.removeItem('user');
-        localStorage.removeItem('carrito');
         setCarrito([]);
         setCompras([]);
     };
