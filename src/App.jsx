@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar/Navbar';
 import Dashboard from './components/dashBoard/dashBoard';
 import Login from './components/Login/Login';
-import PantallaProduto from './components/Pantallas/pantallaProduto/pantallaProducto';
 import PantallaUsuario from './components/Pantallas/pantallaUsuario/pantallaUsuario';
 import PantallaCarrito from './components/Pantallas/pantallaCarrito/pantallaCarrito';
 
@@ -134,10 +133,6 @@ const App = () => {
                     <Route
                         path="/login"
                         element={<Login onLogin={handleLogin} />}
-                    />
-                    <Route
-                        path="/pantallaProduto"
-                        element={<PantallaProduto addToCartHandler={addToCartHandler} />}
                     />
                     <Route
                         path="/pantallaUsuario"

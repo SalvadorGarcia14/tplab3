@@ -27,6 +27,41 @@ const CrearUsuario = ({ onUserCreated }) => {
         }
 
         try {
+            // Verificar si ya existe un usuario con el mismo username
+            const existingUsernameResponse = await fetch(`http://localhost:8000/users?username=${username}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, // Incluye el token en los encabezados
+                },
+            });
+
+            if (!existingUsernameResponse.ok) {
+                throw new Error('Error al verificar el username');
+            }
+
+            const existingUsernameData = await existingUsernameResponse.json();
+            if (existingUsernameData.length > 0) {
+                throw new Error(`Usuario ya registrado con el username ${username}`);
+            }
+
+            // Verificar si ya existe un usuario con el mismo email
+            const existingEmailResponse = await fetch(`http://localhost:8000/users?email=${email}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, // Incluye el token en los encabezados
+                },
+            });
+
+            if (!existingEmailResponse.ok) {
+                throw new Error('Error al verificar el email');
+            }
+
+            const existingEmailData = await existingEmailResponse.json();
+            if (existingEmailData.length > 0) {
+                throw new Error(`Email ya registrado con ${email}`);
+            }
+
+            // Si no hay usuarios existentes con el mismo username o email, procede a crear el usuario
             const formData = {
                 firstName,
                 lastName,
@@ -131,7 +166,7 @@ const CrearUsuario = ({ onUserCreated }) => {
                     <Form.Label>Status</Form.Label>
                     <Form.Control
                         as="select"
-                        value={status}
+                        value={status.toString()} // Convertir a string para comparar con 'true'/'false'
                         onChange={(e) => setStatus(e.target.value === 'true')}
                         required
                     >

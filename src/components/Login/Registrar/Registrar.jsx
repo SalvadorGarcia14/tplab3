@@ -16,6 +16,34 @@ const Registrar = ({ onUserRegistered, accessToken }) => {
         setError(null);
 
         try {
+            // Obtener todos los usuarios para verificar duplicados
+            const usersResponse = await fetch('http://localhost:8000/users', {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+            });
+
+            if (!usersResponse.ok) {
+                throw new Error('Error al obtener usuarios existentes');
+            }
+
+            const users = await usersResponse.json();
+
+            // Verificar si el username o email ya existen
+            const isUsernameTaken = users.some(user => user.username === username);
+            const isEmailTaken = users.some(user => user.email === email);
+
+            if (isUsernameTaken) {
+                setError(`Usuario ya registrado con ese username: ${username}`);
+                return;
+            }
+
+            if (isEmailTaken) {
+                setError(`Email ya registrado con ese email: ${email}`);
+                return;
+            }
+
+            // Si no hay duplicados, registrar al nuevo usuario
             const response = await fetch('http://localhost:8000/users', {
                 method: 'POST',
                 headers: {
@@ -29,7 +57,7 @@ const Registrar = ({ onUserRegistered, accessToken }) => {
                     email,
                     password,
                     status: true,
-                    rango: 'cliente'
+                    rango: 'cliente',
                 }),
             });
 
