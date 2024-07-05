@@ -72,7 +72,7 @@ const PantallaUsuario = ({ user, compras }) => {
                             {showCreateUser && <CrearUsuario onUserCreated={handleUserCreated} />}
                         </>
                     )}
-                    {user.rango === 'admin' || user.rango === 'vendedor' && (
+                    {(user.rango === 'admin' || user.rango === 'vendedor') && (
                         <>
                             <Button onClick={() => setShowAddProduct(!showAddProduct)}>
                                 {showAddProduct ? 'Ocultar Agregar Producto' : 'Agregar Producto'}

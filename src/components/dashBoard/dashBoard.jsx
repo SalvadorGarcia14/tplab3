@@ -10,7 +10,11 @@ const Dashboard = ({ user, searchValue, addToCart }) => {
         fetch('http://localhost:8000/Componentes')
             .then(response => response.json())
             .then(componentData => {
-                const filteredComponents = componentData.filter(componente => componente.status);
+                const filteredComponents = componentData.map(componente => ({
+                    ...componente,
+                    cantidad: parseInt(componente.cantidad), // Parse quantity as integer
+                    status: parseInt(componente.cantidad) > 0, // Update status based on quantity
+                }));
                 setComponentsList(filteredComponents);
             })
             .catch(error => {
@@ -19,7 +23,6 @@ const Dashboard = ({ user, searchValue, addToCart }) => {
     }, []);
 
     const addToCartHandler = (componente) => {
-        console.log(`Agregando al carrito: ${componente.name}`);
         addToCart(componente);
     };
 
@@ -65,7 +68,7 @@ const Dashboard = ({ user, searchValue, addToCart }) => {
                 {filteredComponents.map(componente => (
                     <Producto
                         key={componente.id}
-                        componente={{ ...componente, precio: parseFloat(componente.precio) }}
+                        componente={componente}
                         onAddToCart={addToCartHandler}
                         isAdminOrVendedor={user && (user.rango === 'admin' || user.rango === 'vendedor')}
                         onRemoveProduct={handleRemoveProduct}

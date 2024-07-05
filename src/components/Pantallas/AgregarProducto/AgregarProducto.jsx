@@ -9,6 +9,7 @@ const AgregarProducto = ({ onProductAdded }) => {
     const [imagenUrl, setImagenUrl] = useState(''); // For image URL instead of file upload
     const [componente, setComponente] = useState('');
     const [marca, setMarca] = useState('');
+    const [cantidad, setCantidad] = useState('');
     const [error, setError] = useState(null);
 
     // Opciones de marca por componente
@@ -33,11 +34,12 @@ const AgregarProducto = ({ onProductAdded }) => {
         try {
             const formData = {
                 name,
-                precio,
+                precio: Number(precio), // Convert to number
                 status,
                 imagen: imagenUrl,
                 componente,
                 marca,
+                cantidad: Number(cantidad), // Convert to number
             };
 
             const response = await fetch('http://localhost:8000/Componentes', {
@@ -128,6 +130,16 @@ const AgregarProducto = ({ onProductAdded }) => {
                         </Form.Control>
                     </Form.Group>
                 )}
+                <Form.Group controlId="formCantidad">
+                    <Form.Label>Cantidad en stock</Form.Label>
+                    <Form.Control
+                        type="number"
+                        placeholder="Ingresa la cantidad en stock"
+                        value={cantidad}
+                        onChange={(e) => setCantidad(e.target.value)}
+                        required
+                    />
+                </Form.Group>
                 <Form.Group controlId="formImagenUrl">
                     <Form.Label>URL de la imagen del producto</Form.Label>
                     <Form.Control

@@ -7,8 +7,10 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct 
     const [isAdded, setIsAdded] = useState(false);
 
     const handleAddToCart = () => {
-        setIsAdded(true);
-        onAddToCart(componente);
+        if (componente.cantidad > 0) {
+            setIsAdded(true);
+            onAddToCart(componente);
+        }
     };
 
     const handleRemoveProduct = () => {
@@ -16,16 +18,25 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct 
     };
 
     const handleSaveChanges = (editedProduct) => {
-        console.log('Guardar cambios:', editedProduct);
         const updatedProduct = {
             ...componente,
             name: editedProduct.name,
             precio: editedProduct.precio,
             status: editedProduct.status,
             imagen: editedProduct.imagen,
+            cantidad: editedProduct.cantidad
         };
         onRemoveProduct(updatedProduct);
     };
+
+    if (componente.cantidad === 0 && componente.status) {
+        // Si la cantidad es 0 y el status es true, actualizar el estado del producto
+        const updatedProduct = {
+            ...componente,
+            status: false
+        };
+        handleSaveChanges(updatedProduct); // Llamar a la función para guardar los cambios
+    }
 
     return (
         <Card style={{ width: '18rem', margin: '10px' }}>
@@ -34,33 +45,21 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct 
                 <Card.Title>{componente.name}</Card.Title>
                 <Card.Text>
                     Precio: ${componente.precio} <br />
-                    Stock: {componente.status ? `Disponible` : 'Agotado'}
+                    Stock: {componente.cantidad > 0 ? 'Disponible' : 'Agotado'}
                     {isAdminOrVendedor && <span>Cantidad: {componente.cantidad}</span>}
                 </Card.Text>
-                {componente.status ? (
-                    <>
-                        {!isAdded ? (
-                            <Button variant="primary" onClick={handleAddToCart}>
-                                Agregar al carrito
-                            </Button>
-                        ) : (
-                            <Button variant="success" disabled>
-                                Agregado al carrito
-                            </Button>
-                        )}
-                        {isAdminOrVendedor && (
-                            <>
-                                <ModificarProducto producto={componente} onSave={handleSaveChanges} />
-                                <Button variant="danger" onClick={handleRemoveProduct}>
-                                    Quitar producto
-                                </Button>
-                            </>
-                        )}
-                    </>
-                ) : (
-                    <Button variant="secondary" disabled>
-                        No disponible
+                {!isAdded && componente.cantidad > 0 && (
+                    <Button variant="primary" onClick={handleAddToCart}>
+                        Agregar al carrito
                     </Button>
+                )}
+                {isAdminOrVendedor && (
+                    <>
+                        <ModificarProducto producto={componente} onSave={handleSaveChanges} />
+                        <Button variant="danger" onClick={handleRemoveProduct}>
+                            Quitar producto
+                        </Button>
+                    </>
                 )}
             </Card.Body>
         </Card>

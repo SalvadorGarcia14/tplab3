@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Form, Button } from 'react-bootstrap';
 
@@ -10,27 +10,33 @@ const ModificarProducto = ({ producto, onSave }) => {
         precio: producto.precio,
         status: producto.status,
         imagen: producto.imagen,
-        componente: producto.componente || '', // Asegúrate de manejar valores nulos
-        marca: producto.marca || '', // Asegúrate de manejar valores nulos
+        cantidad: producto.cantidad, // Incluir cantidad en el estado local
     });
 
-    // Opciones de marca por componente
-    const marcaOptions = {
-        cpu: ['AMD', 'Intel'],
-        mother: ['ASUS', 'Asrock'],
-        memoriaram: ['Patriot', 'Team'],
-        gpu: ['Nvidia', 'AMD'],
-    };
+    // Effect para actualizar el status basado en la cantidad y status
+    useEffect(() => {
+        if (editedProduct.cantidad > 0 && !editedProduct.status) {
+            setEditedProduct((prevProduct) => ({
+                ...prevProduct,
+                status: true,
+            }));
+        } else if (editedProduct.cantidad <= 0 && editedProduct.status) {
+            setEditedProduct((prevProduct) => ({
+                ...prevProduct,
+                status: false,
+            }));
+        }
+    }, [editedProduct.cantidad, editedProduct.status]);
 
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setEditedProduct({
-            ...editedProduct,
+        setEditedProduct((prevProduct) => ({
+            ...prevProduct,
             [name]: value,
-        });
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -81,39 +87,6 @@ const ModificarProducto = ({ producto, onSave }) => {
                                 required
                             />
                         </Form.Group>
-                        <Form.Group controlId="formComponente">
-                            <Form.Label>Componente</Form.Label>
-                            <Form.Control
-                                as="select"
-                                name="componente"
-                                value={editedProduct.componente}
-                                onChange={handleChange}
-                                required
-                            >
-                                <option value="">Selecciona un componente</option>
-                                <option value="cpu">CPU</option>
-                                <option value="mother">Motherboard</option>
-                                <option value="memoriaram">Memoria RAM</option>
-                                <option value="gpu">GPU</option>
-                            </Form.Control>
-                        </Form.Group>
-                        {editedProduct.componente && (
-                            <Form.Group controlId="formMarca">
-                                <Form.Label>Marca</Form.Label>
-                                <Form.Control
-                                    as="select"
-                                    name="marca"
-                                    value={editedProduct.marca}
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="">Selecciona una marca</option>
-                                    {marcaOptions[editedProduct.componente].map((marcaOption) => (
-                                        <option key={marcaOption} value={marcaOption}>{marcaOption}</option>
-                                    ))}
-                                </Form.Control>
-                            </Form.Group>
-                        )}
                         <Form.Group controlId="formPrecio">
                             <Form.Label>Precio</Form.Label>
                             <Form.Control
@@ -130,11 +103,21 @@ const ModificarProducto = ({ producto, onSave }) => {
                                 label="Disponible"
                                 checked={editedProduct.status}
                                 onChange={(e) =>
-                                    setEditedProduct({
-                                        ...editedProduct,
+                                    setEditedProduct((prevProduct) => ({
+                                        ...prevProduct,
                                         status: e.target.checked,
-                                    })
+                                    }))
                                 }
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="formCantidad">
+                            <Form.Label>Cantidad</Form.Label>
+                            <Form.Control
+                                type="number"
+                                name="cantidad"
+                                value={editedProduct.cantidad}
+                                onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                         <Form.Group controlId="formImagen">
@@ -164,8 +147,7 @@ ModificarProducto.propTypes = {
         precio: PropTypes.number.isRequired,
         status: PropTypes.bool.isRequired,
         imagen: PropTypes.string.isRequired,
-        componente: PropTypes.string,
-        marca: PropTypes.string,
+        cantidad: PropTypes.number.isRequired, // Asegúrate de que cantidad sea requerida
     }).isRequired,
     onSave: PropTypes.func.isRequired,
 };
