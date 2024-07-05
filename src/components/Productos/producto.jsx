@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
-import ModificarProducto from '../Productos/ModificarProducto/modificarProducto'; // Importar ModificarProducto aquí
+import ModificarProducto from '../Productos/ModificarProducto/modificarProducto';
 
 const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct }) => {
     const [isAdded, setIsAdded] = useState(false);
@@ -16,7 +16,6 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct 
     };
 
     const handleSaveChanges = (editedProduct) => {
-        // Actualizar localmente el producto con los cambios guardados
         console.log('Guardar cambios:', editedProduct);
         const updatedProduct = {
             ...componente,
@@ -36,7 +35,7 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct 
                 <Card.Text>
                     Precio: {componente.precio} <br />
                     Stock: {componente.status ? 'Disponible' : 'Agotado'}
-                    {isAdminOrVendedor && <p>Cantidad: {componente.cantidad}</p>}
+                    {isAdminOrVendedor && <span>Cantidad: {componente.cantidad}</span>}
                 </Card.Text>
                 {componente.status ? (
                     <>
@@ -75,7 +74,7 @@ Producto.propTypes = {
         name: PropTypes.string.isRequired,
         precio: PropTypes.number.isRequired,
         status: PropTypes.bool.isRequired,
-        cantidad: PropTypes.number.isRequired, // Asegúrate de agregar cantidad aquí
+        cantidad: PropTypes.number.isRequired,
     }).isRequired,
     onAddToCart: PropTypes.func.isRequired,
     isAdminOrVendedor: PropTypes.bool.isRequired,

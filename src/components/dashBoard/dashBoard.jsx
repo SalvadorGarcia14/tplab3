@@ -10,7 +10,6 @@ const Dashboard = ({ user, searchValue, addToCart }) => {
         fetch('http://localhost:8000/Componentes')
             .then(response => response.json())
             .then(componentData => {
-                // Filtrar solo los componentes con status: true
                 const filteredComponents = componentData.filter(componente => componente.status);
                 setComponentsList(filteredComponents);
             })
@@ -21,7 +20,7 @@ const Dashboard = ({ user, searchValue, addToCart }) => {
 
     const addToCartHandler = (componente) => {
         console.log(`Agregando al carrito: ${componente.name}`);
-        addToCart(componente); // Llamar a la función pasada por props para agregar al carrito
+        addToCart(componente);
     };
 
     const handleRemoveProduct = async (productId) => {
@@ -66,7 +65,7 @@ const Dashboard = ({ user, searchValue, addToCart }) => {
                 {filteredComponents.map(componente => (
                     <Producto
                         key={componente.id}
-                        componente={componente}
+                        componente={{ ...componente, precio: parseFloat(componente.precio) }}
                         onAddToCart={addToCartHandler}
                         isAdminOrVendedor={user && (user.rango === 'admin' || user.rango === 'vendedor')}
                         onRemoveProduct={handleRemoveProduct}
@@ -80,7 +79,7 @@ const Dashboard = ({ user, searchValue, addToCart }) => {
 Dashboard.propTypes = {
     user: PropTypes.object,
     searchValue: PropTypes.string.isRequired,
-    addToCart: PropTypes.func.isRequired, // Añadir propType para la función addToCart
+    addToCart: PropTypes.func.isRequired,
 };
 
 export default Dashboard;

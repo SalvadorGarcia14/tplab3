@@ -1,16 +1,16 @@
-// En PantallaUsuario.jsx
-
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import CrearUsuario from '../CrearUsuario/crearUsuario';
 import AgregarProducto from '../AgregarProducto/AgregarProducto';
 import ListaUsuarios from '../ListaUsuarios/ListaUsuarios';
+import ListaCompras from '../listaCompra/listaCompra';
 
-const PantallaUsuario = ({ user }) => {
+const PantallaUsuario = ({ user, compras }) => {
     const [showCreateUser, setShowCreateUser] = useState(false);
     const [showAddProduct, setShowAddProduct] = useState(false);
     const [showUserList, setShowUserList] = useState(false);
+    const [showCompras, setShowCompras] = useState(false);
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -56,6 +56,10 @@ const PantallaUsuario = ({ user }) => {
                     {(user.rango === 'admin' || user.rango === 'vendedor') && (
                         <p>Rango: {user.rango}</p>
                     )}
+                    <Button onClick={() => setShowCompras(!showCompras)}>
+                        {showCompras ? 'Ocultar Mis Compras' : 'Mostrar Mis Compras'}
+                    </Button>
+                    {showCompras && <ListaCompras compras={compras} />}
                     {user.rango === 'admin' && (
                         <>
                             <Button onClick={() => setShowUserList(!showUserList)}>
@@ -66,10 +70,6 @@ const PantallaUsuario = ({ user }) => {
                                 {showCreateUser ? 'Ocultar Crear Usuario' : 'Crear Usuario'}
                             </Button>
                             {showCreateUser && <CrearUsuario onUserCreated={handleUserCreated} />}
-                        </>
-                    )}
-                    {(user.rango === 'admin' || user.rango === 'vendedor') && (
-                        <>
                             <Button onClick={() => setShowAddProduct(!showAddProduct)}>
                                 {showAddProduct ? 'Ocultar Agregar Producto' : 'Agregar Producto'}
                             </Button>
@@ -78,20 +78,15 @@ const PantallaUsuario = ({ user }) => {
                     )}
                 </div>
             ) : (
-                <p>No hay usuario logueado.</p>
+                <p>No hay usuario autenticado</p>
             )}
         </div>
     );
 };
 
 PantallaUsuario.propTypes = {
-    user: PropTypes.shape({
-        firstName: PropTypes.string.isRequired,
-        lastName: PropTypes.string.isRequired,
-        username: PropTypes.string.isRequired,
-        email: PropTypes.string.isRequired,
-        rango: PropTypes.string.isRequired,
-    }),
+    user: PropTypes.object,
+    compras: PropTypes.array.isRequired,
 };
 
 export default PantallaUsuario;

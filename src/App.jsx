@@ -10,7 +10,14 @@ import PantallaCarrito from './components/Pantallas/pantallaCarrito/pantallaCarr
 const App = () => {
     const [user, setUser] = useState(null);
     const [searchValue, setSearchValue] = useState('');
-    const [carrito, setCarrito] = useState([]);
+    const [carrito, setCarrito] = useState(() => {
+        const savedCarrito = localStorage.getItem('carrito');
+        return savedCarrito ? JSON.parse(savedCarrito) : [];
+    });
+    const [compras, setCompras] = useState(() => {
+        const savedCompras = localStorage.getItem('compras');
+        return savedCompras ? JSON.parse(savedCompras) : [];
+    });
 
     useEffect(() => {
         const savedUser = localStorage.getItem('user');
@@ -18,6 +25,14 @@ const App = () => {
             setUser(JSON.parse(savedUser));
         }
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+    }, [carrito]);
+
+    useEffect(() => {
+        localStorage.setItem('compras', JSON.stringify(compras));
+    }, [compras]);
 
     const handleLogin = (loggedInUser) => {
         setUser(loggedInUser);
@@ -28,6 +43,9 @@ const App = () => {
         setUser(null);
         setSearchValue('');
         localStorage.removeItem('user');
+        localStorage.removeItem('carrito');
+        setCarrito([]);
+        setCompras([]);
     };
 
     const addToCartHandler = (componente) => {
@@ -46,37 +64,65 @@ const App = () => {
     };
 
     const removeFromCartHandler = (componente) => {
-        const updatedCarrito = carrito.filter(item => item.id !== componente.id);
-        setCarrito(updatedCarrito);
+        setCarrito(prevCarrito => prevCarrito.filter(item => item.id !== componente.id));
+    };
+
+    const handleCompraRealizada = async (compra) => {
+        try {
+            const response = await fetch('http://localhost:8000/compras', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(compra),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al almacenar la compra');
+            }
+
+            const data = await response.json();
+            setCompras(prevCompras => [...prevCompras, data]); // Almacenar la compra en el estado de compras
+            console.log('Compra realizada con éxito:', data);
+        } catch (error) {
+            console.error('Error al realizar la compra:', error);
+        }
     };
 
     return (
         <Router>
-            <NavBar 
-                searchValue={searchValue} 
-                setSearchValue={setSearchValue} 
-                user={user} 
-                onLogout={handleLogout} 
+            <NavBar
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+                user={user}
+                onLogout={handleLogout}
                 carrito={carrito}
             />
             <div className="container mt-3">
                 <Routes>
-                    <Route 
-                        path="/" 
-                        element={<Dashboard user={user} searchValue={searchValue} addToCart={addToCartHandler} />} 
+                    <Route
+                        path="/"
+                        element={<Dashboard user={user} searchValue={searchValue} addToCart={addToCartHandler} />}
                     />
                     <Route path="/login" element={<Login onLogin={handleLogin} />} />
-                    <Route 
-                        path="/pantallaProduto" 
-                        element={<PantallaProduto />} 
+                    <Route
+                        path="/pantallaProduto"
+                        element={<PantallaProduto />}
                     />
-                    <Route 
-                        path="/pantallaUsuario" 
-                        element={<PantallaUsuario user={user}/>} 
+                    <Route
+                        path="/pantallaUsuario"
+                        element={<PantallaUsuario user={user} compras={compras} carrito={carrito} setCarrito={setCarrito} removeFromCart={removeFromCartHandler} onCompraRealizada={handleCompraRealizada} />}
                     />
-                    <Route 
-                        path="/pantallaCarrito" 
-                        element={<PantallaCarrito carrito={carrito} removeFromCart={removeFromCartHandler} />} 
+                    <Route
+                        path="/pantallaCarrito"
+                        element={
+                            <PantallaCarrito
+                                carrito={carrito}
+                                setCarrito={setCarrito}
+                                removeFromCart={removeFromCartHandler}
+                                onCompraRealizada={handleCompraRealizada}
+                            />
+                        }
                     />
                 </Routes>
             </div>

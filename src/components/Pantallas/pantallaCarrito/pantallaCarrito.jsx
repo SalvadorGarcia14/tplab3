@@ -1,17 +1,55 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Button, Alert } from 'react-bootstrap';
+import { Card, Button, Alert, Image } from 'react-bootstrap';
 
-const PantallaCarrito = ({ carrito, removeFromCart }) => {
+const PantallaCarrito = ({ carrito, setCarrito, onCompraRealizada }) => {
     const [showAlert, setShowAlert] = useState(false);
+    const [showCompraRealizada, setShowCompraRealizada] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
 
     const calcularPrecioTotal = () => {
         return carrito.reduce((total, componente) => total + componente.precio * (componente.cantidadEnCarrito || 1), 0);
     };
 
     const handleComprar = () => {
-        setShowAlert(true);
-        // Aquí puedes agregar la lógica para procesar la compra
+        // Verifica si hay suficiente stock
+        const stockInsuficiente = carrito.some(componente => componente.cantidadEnCarrito > componente.cantidad);
+        if (stockInsuficiente) {
+            setAlertMessage('Algunos productos no tienen suficiente stock.');
+            setShowAlert(true);
+            return;
+        }
+
+        onCompraRealizada({ items: carrito, total: calcularPrecioTotal() });
+        setCarrito([]);
+        setShowCompraRealizada(true);
+    };
+
+    const handleRemoveFromCart = (componente) => {
+        setCarrito(prevCarrito => prevCarrito.filter(item => item.id !== componente.id));
+    };
+
+    const handleIncrement = (componente) => {
+        if (componente.cantidadEnCarrito < componente.cantidad) {
+            setCarrito(prevCarrito => prevCarrito.map(item =>
+                item.id === componente.id
+                    ? { ...item, cantidadEnCarrito: item.cantidadEnCarrito + 1 }
+                    : item
+            ));
+        } else {
+            setAlertMessage('Alcanzado stock máximo.');
+            setShowAlert(true);
+        }
+    };
+
+    const handleDecrement = (componente) => {
+        if (componente.cantidadEnCarrito > 1) {
+            setCarrito(prevCarrito => prevCarrito.map(item =>
+                item.id === componente.id
+                    ? { ...item, cantidadEnCarrito: item.cantidadEnCarrito - 1 }
+                    : item
+            ));
+        }
     };
 
     return (
@@ -19,17 +57,25 @@ const PantallaCarrito = ({ carrito, removeFromCart }) => {
             <Card.Body>
                 <Card.Title>Carrito de Compras</Card.Title>
                 {carrito.map(componente => (
-                    <Card.Text key={componente.id}>
-                        {componente.name} - Cantidad: {componente.cantidadEnCarrito || 1}
-                        <Button variant="danger" onClick={() => removeFromCart(componente)}>Eliminar</Button>
-                    </Card.Text>
+                    <div key={componente.id}>
+                        <Image src={componente.imagen} alt={componente.name} style={{ width: '50px', height: '50px' }} />
+                        <p>{componente.name} ({componente.marca}) - Cantidad: {componente.cantidadEnCarrito || 1}</p>
+                        <Button variant="secondary" onClick={() => handleDecrement(componente)}>-</Button>
+                        <Button variant="secondary" onClick={() => handleIncrement(componente)}>+</Button>
+                        <Button variant="danger" onClick={() => handleRemoveFromCart(componente)}>Eliminar</Button>
+                    </div>
                 ))}
-                <Card.Text>Total: ${calcularPrecioTotal()}</Card.Text>
-                <Button variant="success" onClick={handleComprar}>Comprar</Button>
+                <p>Total: ${calcularPrecioTotal()}</p>
+                <Button variant="success" onClick={handleComprar} disabled={carrito.length === 0}>Comprar</Button>
+                {showCompraRealizada && carrito.length === 0 && (
+                    <Alert variant="success" onClose={() => setShowCompraRealizada(false)} dismissible>
+                        Gracias por su compra
+                    </Alert>
+                )}
             </Card.Body>
             {showAlert && (
-                <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
-                    Compra realizada
+                <Alert variant="warning" onClose={() => setShowAlert(false)} dismissible>
+                    {alertMessage}
                 </Alert>
             )}
         </Card>
@@ -38,7 +84,8 @@ const PantallaCarrito = ({ carrito, removeFromCart }) => {
 
 PantallaCarrito.propTypes = {
     carrito: PropTypes.array.isRequired,
-    removeFromCart: PropTypes.func.isRequired,
+    setCarrito: PropTypes.func.isRequired,
+    onCompraRealizada: PropTypes.func.isRequired,
 };
 
 export default PantallaCarrito;
