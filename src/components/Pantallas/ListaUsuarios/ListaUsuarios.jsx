@@ -12,24 +12,28 @@ const ListaUsuarios = () => {
         lastName: '',
         username: '',
         email: '',
-        rango: '', // Nuevo campo para el rango del usuario
-        status: false, // Nuevo campo para el estado del usuario
+        rango: '',
+        status: false,
     });
     const [alertMessage, setAlertMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
-    const [alertType, setAlertType] = useState('success'); // 'success' or 'danger'
+    const [alertType, setAlertType] = useState('success');
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const accessToken = localStorage.getItem('accessToken');
+                if (!accessToken) {
+                    throw new Error('No access token found');
+                }
+
                 const response = await fetch('http://localhost:8000/users', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
                 if (!response.ok) {
-                    throw new Error('Error al obtener usuarios');
+                    throw new Error(response.statusText);
                 }
                 const data = await response.json();
                 setUsers(data);
@@ -53,7 +57,6 @@ const ListaUsuarios = () => {
             if (!response.ok) {
                 throw new Error('Error al eliminar usuario');
             }
-            // Actualizar la lista de usuarios después de eliminar
             const deletedUser = users.find(user => user.id === userId);
             setUsers(users.filter(user => user.id !== userId));
             setAlertMessage(`Se eliminó "${deletedUser.username}" correctamente.`);
@@ -74,8 +77,8 @@ const ListaUsuarios = () => {
             lastName: user.lastName,
             username: user.username,
             email: user.email,
-            rango: user.rango, // Actualizar el estado del formulario con el rango actual del usuario
-            status: user.status, // Actualizar el estado del formulario con el estado actual del usuario
+            rango: user.rango,
+            status: user.status,
         });
         setShowModal(true);
     };
@@ -88,20 +91,18 @@ const ListaUsuarios = () => {
             lastName: '',
             username: '',
             email: '',
-            rango: '', // Reiniciar el rango a su valor inicial
-            status: false, // Reiniciar el estado a su valor inicial
+            rango: '',
+            status: false,
         });
     };
 
     const handleChange = (e) => {
         if (e.target.name === 'status') {
-            // Manejar cambios en el estado
             setFormData({
                 ...formData,
-                status: e.target.checked, // Guardar el estado como booleano
+                status: e.target.checked,
             });
         } else {
-            // Otros cambios de formulario
             setFormData({
                 ...formData,
                 [e.target.name]: e.target.value,
@@ -114,7 +115,7 @@ const ListaUsuarios = () => {
         try {
             const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(`http://localhost:8000/users/${selectedUser.id}`, {
-                method: 'PATCH', // or 'PUT'
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
@@ -124,7 +125,6 @@ const ListaUsuarios = () => {
             if (!response.ok) {
                 throw new Error('Error al modificar usuario');
             }
-            // Actualizar la lista de usuarios después de modificar
             const updatedUser = await response.json();
             setUsers(users.map(user => user.id === updatedUser.id ? updatedUser : user));
             handleCloseModal();
@@ -142,24 +142,23 @@ const ListaUsuarios = () => {
     return (
         <div className="lista-usuarios-container">
             {error && <Alert variant="danger">{error}</Alert>}
-            {showAlert && <Alert variant={alertType}>{alertMessage}</Alert>}
-            {users.map((user) => (
-                <Card key={user.id} style={{ width: '18rem', margin: '10px' }}>
+            {showAlert && <Alert variant={alertType} onClose={() => setShowAlert(false)} dismissible>{alertMessage}</Alert>}
+            <h2>Lista de Usuarios</h2>
+            {users.map(user => (
+                <Card key={user.id} className="mb-3">
                     <Card.Body>
-                        <Card.Title>{user.firstName} {user.lastName}</Card.Title>
+                        <Card.Title>{user.username}</Card.Title>
                         <Card.Text>
-                            <strong>Username:</strong> {user.username} <br />
-                            <strong>Email:</strong> {user.email} <br />
-                            <strong>Rango:</strong> {user.rango} <br />
-                            <strong>Status:</strong> {user.status ? 'Activo' : 'Inactivo'}
+                            Nombre: {user.firstName} {user.lastName}<br />
+                            Email: {user.email}<br />
+                            Rango: {user.rango}<br />
+                            Estado: {user.status ? 'Activo' : 'Inactivo'}
                         </Card.Text>
-                        <Button variant="primary" onClick={() => handleDeleteUser(user.id)}>Eliminar</Button>
-                        <Button variant="info" onClick={() => handleModifyUser(user)}>Modificar</Button>
+                        <Button variant="danger" onClick={() => handleDeleteUser(user.id)}>Eliminar</Button>
+                        <Button variant="primary" onClick={() => handleModifyUser(user)}>Modificar</Button>
                     </Card.Body>
                 </Card>
             ))}
-
-            {/* Modal para modificar usuario */}
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Modificar Usuario</Modal.Title>
@@ -167,7 +166,7 @@ const ListaUsuarios = () => {
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="formFirstName">
-                            <Form.Label>First Name</Form.Label>
+                            <Form.Label>Nombre</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="firstName"
@@ -177,7 +176,7 @@ const ListaUsuarios = () => {
                             />
                         </Form.Group>
                         <Form.Group controlId="formLastName">
-                            <Form.Label>Last Name</Form.Label>
+                            <Form.Label>Apellido</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="lastName"
@@ -215,21 +214,23 @@ const ListaUsuarios = () => {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="cliente">Cliente</option>
+                                <option value="admin">Admin</option>
                                 <option value="vendedor">Vendedor</option>
-                                <option value="admin">Administrador</option>
+                                <option value="cliente">Cliente</option>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="formStatus">
                             <Form.Check
                                 type="checkbox"
-                                name="status"
                                 label="Activo"
+                                name="status"
                                 checked={formData.status}
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                        <Button variant="primary" type="submit">Guardar Cambios</Button>
+                        <Button variant="primary" type="submit">
+                            Guardar Cambios
+                        </Button>
                     </Form>
                 </Modal.Body>
             </Modal>
@@ -238,15 +239,7 @@ const ListaUsuarios = () => {
 };
 
 ListaUsuarios.propTypes = {
-    user: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        firstName: PropTypes.string.isRequired,
-        lastName: PropTypes.string.isRequired,
-        username: PropTypes.string.isRequired,
-        email: PropTypes.string.isRequired,
-        rango: PropTypes.string.isRequired,
-        status: PropTypes.bool.isRequired,
-    }),
+    user: PropTypes.object,
 };
 
 export default ListaUsuarios;

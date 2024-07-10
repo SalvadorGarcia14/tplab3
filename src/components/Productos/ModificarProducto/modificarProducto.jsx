@@ -35,7 +35,7 @@ const ModificarProducto = ({ producto, onSave }) => {
         const { name, value } = e.target;
         setEditedProduct((prevProduct) => ({
             ...prevProduct,
-            [name]: value,
+            [name]: name === 'precio' || name === 'cantidad' ? parseFloat(value) : value, // Parseo condicional
         }));
     };
 
@@ -44,7 +44,7 @@ const ModificarProducto = ({ producto, onSave }) => {
         try {
             const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(`http://localhost:8000/Componentes/${editedProduct.id}`, {
-                method: 'PUT', // Método PUT para actualizar el producto
+                method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json',
@@ -56,9 +56,7 @@ const ModificarProducto = ({ producto, onSave }) => {
                 throw new Error('Error al actualizar el producto');
             }
 
-            // Actualizar localmente el producto modificado
             onSave(editedProduct);
-
             handleClose();
         } catch (error) {
             console.error('Error al actualizar el producto:', error);
@@ -67,8 +65,8 @@ const ModificarProducto = ({ producto, onSave }) => {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
-                Modificar Producto
+            <Button variant="secondary" onClick={handleShow}>
+                Modificar 
             </Button>
 
             <Modal show={showModal} onHide={handleClose}>
@@ -77,37 +75,23 @@ const ModificarProducto = ({ producto, onSave }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formName">
+                        <Form.Group controlId="formNombre">
                             <Form.Label>Nombre</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="name"
                                 value={editedProduct.name}
                                 onChange={handleChange}
-                                required
                             />
                         </Form.Group>
                         <Form.Group controlId="formPrecio">
                             <Form.Label>Precio</Form.Label>
                             <Form.Control
                                 type="number"
+                                step="0.01"
                                 name="precio"
                                 value={editedProduct.precio}
                                 onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="formStatus">
-                            <Form.Check
-                                type="checkbox"
-                                label="Disponible"
-                                checked={editedProduct.status}
-                                onChange={(e) =>
-                                    setEditedProduct((prevProduct) => ({
-                                        ...prevProduct,
-                                        status: e.target.checked,
-                                    }))
-                                }
                             />
                         </Form.Group>
                         <Form.Group controlId="formCantidad">
@@ -117,17 +101,15 @@ const ModificarProducto = ({ producto, onSave }) => {
                                 name="cantidad"
                                 value={editedProduct.cantidad}
                                 onChange={handleChange}
-                                required
                             />
                         </Form.Group>
                         <Form.Group controlId="formImagen">
-                            <Form.Label>URL de Imagen</Form.Label>
+                            <Form.Label>Imagen</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="imagen"
                                 value={editedProduct.imagen}
                                 onChange={handleChange}
-                                required
                             />
                         </Form.Group>
                         <Button variant="primary" type="submit">
@@ -146,8 +128,8 @@ ModificarProducto.propTypes = {
         name: PropTypes.string.isRequired,
         precio: PropTypes.number.isRequired,
         status: PropTypes.bool.isRequired,
-        imagen: PropTypes.string.isRequired,
-        cantidad: PropTypes.number.isRequired, // Asegúrate de que cantidad sea requerida
+        imagen: PropTypes.string,
+        cantidad: PropTypes.number.isRequired,
     }).isRequired,
     onSave: PropTypes.func.isRequired,
 };

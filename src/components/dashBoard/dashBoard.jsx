@@ -51,6 +51,33 @@ const Dashboard = ({ user, searchValue, addToCart }) => {
         }
     };
 
+    const handleUpdateProduct = async (updatedProduct) => {
+        const accessToken = localStorage.getItem('accessToken');
+
+        try {
+            const response = await fetch(`http://localhost:8000/Componentes/${updatedProduct.id}`, {
+                method: 'PUT', // or PATCH
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedProduct),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al actualizar el producto');
+            }
+
+            const updatedComponents = componentsList.map(c => 
+                c.id === updatedProduct.id ? updatedProduct : c
+            );
+            setComponentsList(updatedComponents);
+
+        } catch (error) {
+            console.error('Error al actualizar el producto:', error);
+        }
+    };
+
     const filteredComponents = componentsList.filter(c =>
         c.name.toUpperCase().includes(searchValue.toUpperCase())
     );
@@ -73,6 +100,7 @@ const Dashboard = ({ user, searchValue, addToCart }) => {
                         onAddToCart={addToCartHandler}
                         isAdminOrVendedor={user && (user.rango === 'admin' || user.rango === 'vendedor')}
                         onRemoveProduct={handleRemoveProduct}
+                        onUpdateProduct={handleUpdateProduct}
                         user={user} // Pasar el usuario al componente Producto
                     />
                 ))}

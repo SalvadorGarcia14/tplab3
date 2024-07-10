@@ -15,15 +15,21 @@ const PantallaUsuario = ({ user, compras }) => {
 
     useEffect(() => {
         if (user && (user.rango === 'admin' || user.rango === 'vendedor')) {
+            const accessToken = localStorage.getItem('accessToken');
+            if (!accessToken) {
+                console.error('No access token found');
+                return;
+            }
+
             fetch('http://localhost:8000/users', {
                 method: 'GET',
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                    Authorization: `Bearer ${accessToken}`,
                 },
             })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Unauthorized');
+                        throw new Error(response.statusText);
                     }
                     return response.json();
                 })

@@ -4,7 +4,7 @@ import { Card, Button, Row, Col } from 'react-bootstrap';
 import ModificarProducto from '../Productos/ModificarProducto/modificarProducto';
 import './producto.css'; 
 
-const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct, user }) => {
+const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onUpdateProduct, onRemoveProduct, user }) => {
     const [isAdded, setIsAdded] = useState(false);
 
     const handleAddToCart = () => {
@@ -22,12 +22,12 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onRemoveProduct,
         const updatedProduct = {
             ...componente,
             name: editedProduct.name,
-            precio: editedProduct.precio,
+            precio: parseFloat(editedProduct.precio), // Asegurarse de que precio es un número
             status: editedProduct.status,
             imagen: editedProduct.imagen,
-            cantidad: editedProduct.cantidad
+            cantidad: parseInt(editedProduct.cantidad, 10) // Asegurarse de que cantidad es un número
         };
-        onRemoveProduct(updatedProduct);
+        onUpdateProduct(updatedProduct);
     };
 
     if (componente.cantidad === 0 && componente.status) {
@@ -84,6 +84,7 @@ Producto.propTypes = {
     onAddToCart: PropTypes.func.isRequired,
     isAdminOrVendedor: PropTypes.bool, // Hacerlo opcional
     onRemoveProduct: PropTypes.func.isRequired,
+    onUpdateProduct: PropTypes.func.isRequired,
     user: PropTypes.object, // Agregar el usuario a las propTypes
 };
 
