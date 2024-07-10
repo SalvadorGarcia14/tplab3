@@ -5,6 +5,7 @@ import Dashboard from './components/dashBoard/dashBoard';
 import Login from './components/Login/Login';
 import PantallaUsuario from './components/Pantallas/pantallaUsuario/pantallaUsuario';
 import PantallaCarrito from './components/Pantallas/pantallaCarrito/pantallaCarrito';
+import './App.css';
 
 const App = () => {
     const [user, setUser] = useState(null);
@@ -117,49 +118,55 @@ const App = () => {
 
     return (
         <Router>
-            <NavBar
-                searchValue={searchValue}
-                setSearchValue={setSearchValue}
-                user={user}
-                onLogout={handleLogout}
-                carrito={carrito}
-            />
-            <div className="container mt-3">
-                <Routes>
-                    <Route
-                        path="/"
-                        element={<Dashboard user={user} searchValue={searchValue} addToCart={addToCartHandler} />}
-                    />
-                    <Route
-                        path="/login"
-                        element={<Login onLogin={handleLogin} />}
-                    />
-                    <Route
-                        path="/pantallaUsuario"
-                        element={
-                            <PantallaUsuario
-                                user={user}
-                                compras={compras}
-                                carrito={carrito}
-                                setCarrito={setCarrito}
-                                removeFromCart={removeFromCartHandler}
-                                onCompraRealizada={handleCompraRealizada}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/pantallaCarrito"
-                        element={
-                            <PantallaCarrito
-                                carrito={carrito}
-                                setCarrito={setCarrito}
-                                removeFromCart={removeFromCartHandler}
-                                onCompraRealizada={handleCompraRealizada}
-                                user={user}
-                            />
-                        }
-                    />
-                </Routes>
+            <div className="App">
+                <NavBar
+                    searchValue={searchValue}
+                    setSearchValue={setSearchValue}
+                    user={user}
+                    onLogout={handleLogout}
+                    carrito={carrito}
+                />
+                <div className="container mt-3">
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={
+                                <div className="dashboard-container">
+                                    <Dashboard user={user} searchValue={searchValue} addToCart={addToCartHandler} />
+                                </div>
+                            }
+                        />
+                        <Route
+                            path="/login"
+                            element={<Login onLogin={handleLogin} />}
+                        />
+                        <Route
+                            path="/pantallaUsuario"
+                            element={
+                                <PantallaUsuario
+                                    user={user}
+                                    compras={compras}
+                                    carrito={carrito}
+                                    setCarrito={setCarrito}
+                                    removeFromCart={removeFromCartHandler}
+                                    onCompraRealizada={handleCompraRealizada}
+                                />
+                            }
+                        />
+                        <Route
+                            path="/pantallaCarrito"
+                            element={
+                                <PantallaCarrito
+                                    carrito={carrito}
+                                    setCarrito={setCarrito}
+                                    removeFromCart={removeFromCartHandler}
+                                    onCompraRealizada={handleCompraRealizada}
+                                    user={user}
+                                />
+                            }
+                        />
+                    </Routes>
+                </div>
             </div>
         </Router>
     );

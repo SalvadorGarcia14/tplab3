@@ -70,6 +70,8 @@ const Login = ({ onLogin }) => {
         navigate('/'); // Por ejemplo, navega al Dashboard después del registro exitoso
     };
 
+    const accessToken = localStorage.getItem('accessToken');
+
     return (
         <div className="login-container">
             <h2>Iniciar sesión</h2>
@@ -99,8 +101,11 @@ const Login = ({ onLogin }) => {
                     Iniciar sesión
                 </Button>
             </Form>
-            <Registrar accessToken={localStorage.getItem('accessToken')} onUserRegistered={handleUserRegistered} />
-            {/* Pasa accessToken y la función handleUserRegistered a Registrar */}
+            {accessToken ? (
+                <Registrar accessToken={accessToken} onUserRegistered={handleUserRegistered} />
+            ) : (
+                <Alert variant="warning">Por favor, inicia sesión para registrar un nuevo usuario.</Alert>
+            )}
         </div>
     );
 };

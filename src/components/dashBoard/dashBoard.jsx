@@ -12,8 +12,9 @@ const Dashboard = ({ user, searchValue, addToCart }) => {
             .then(componentData => {
                 const filteredComponents = componentData.map(componente => ({
                     ...componente,
-                    cantidad: parseInt(componente.cantidad), // Parse quantity as integer
-                    status: parseInt(componente.cantidad) > 0, // Update status based on quantity
+                    cantidad: parseInt(componente.cantidad, 10), // Parse cantidad como entero
+                    precio: parseFloat(componente.precio), // Parse precio como float
+                    status: parseInt(componente.cantidad, 10) > 0, // Actualizar estado en función de la cantidad
                 }));
                 setComponentsList(filteredComponents);
             })
