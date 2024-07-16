@@ -63,10 +63,8 @@ const Login = ({ onLogin }) => {
     };
 
     const handleUserRegistered = async (userData) => {
-        // Aquí puedes implementar la lógica para manejar el registro de usuario
-        // Puedes guardar userData en tu estado local si lo necesitas
+        // Puede guardar userData en tu estado local si lo necesitas
         console.log('Usuario registrado:', userData);
-        // Opcionalmente, puedes redirigir al usuario después de registrarse
         navigate('/'); // Por ejemplo, navega al Dashboard después del registro exitoso
     };
 
