@@ -1,0 +1,173 @@
+/* ===================================================
+   DASHBOARD
+=================================================== */
+
+.dashboard{
+
+    width:100%;
+
+    padding:20px 0 50px;
+}
+
+/* ===================================================
+   HEADER
+=================================================== */
+
+.dashboard-header{
+
+    text-align:center;
+
+    margin-bottom:45px;
+}
+
+/* ===================================================
+   TITULO
+=================================================== */
+
+.dashboard-title{
+
+    font-size:2.8rem;
+
+    font-weight:700;
+
+    color:#0f172a;
+
+    margin-bottom:12px;
+}
+
+/* ===================================================
+   SUBTITULO
+=================================================== */
+
+.dashboard-subtitle{
+
+    max-width:700px;
+
+    margin:auto;
+
+    color:#64748b;
+
+    font-size:1.08rem;
+
+    line-height:1.8;
+}
+
+/* ===================================================
+   BIENVENIDA
+=================================================== */
+
+.dashboard-welcome{
+
+    display:inline-block;
+
+    margin-top:22px;
+
+    padding:12px 22px;
+
+    background:#eff6ff;
+
+    color:#2563eb;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    box-shadow:0 6px 20px rgba(37,99,235,.08);
+}
+
+/* ===================================================
+   GRID DE PRODUCTOS
+=================================================== */
+
+.products-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(420px,1fr));
+
+    gap:28px;
+
+    align-items:start;
+}
+
+/* ===================================================
+   ANIMACION
+=================================================== */
+
+.products-grid>*{
+
+    animation:fadeUp .45s ease;
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(18px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ===================================================
+   RESPONSIVE
+=================================================== */
+
+@media (max-width:992px){
+
+    .dashboard-title{
+
+        font-size:2.3rem;
+    }
+
+    .products-grid{
+
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media (max-width:768px){
+
+    .dashboard{
+
+        padding-top:10px;
+    }
+
+    .dashboard-title{
+
+        font-size:2rem;
+    }
+
+    .dashboard-subtitle{
+
+        font-size:.98rem;
+
+        padding:0 10px;
+    }
+
+}
+
+@media (max-width:576px){
+
+    .dashboard-title{
+
+        font-size:1.75rem;
+    }
+
+    .dashboard-welcome{
+
+        width:100%;
+    }
+
+}

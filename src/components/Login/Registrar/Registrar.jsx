@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal, Form, Alert } from 'react-bootstrap';
+import "./Registrar.css";
 
 const Registrar = ({ onUserRegistered, accessToken }) => {
     const [showModal, setShowModal] = useState(false);
@@ -75,73 +76,176 @@ const Registrar = ({ onUserRegistered, accessToken }) => {
 
     return (
         <>
-            <Button variant="primary" onClick={() => setShowModal(true)}>
+            <Button
+                className="register-open-button"
+                onClick={() => setShowModal(true)}
+            >
                 Registrarse
             </Button>
 
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                centered
+                className="register-modal"
+            >
+
                 <Modal.Header closeButton>
-                    <Modal.Title>Registrarse</Modal.Title>
+
+                    <Modal.Title>
+
+                        Crear una cuenta
+
+                    </Modal.Title>
+
                 </Modal.Header>
+
                 <Modal.Body>
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formFirstName">
-                            <Form.Label>Nombre</Form.Label>
+
+                    <p className="register-subtitle">
+                        Completa los siguientes datos para registrarte.
+                    </p>
+
+                    {error && (
+
+                        <Alert className="register-error">
+
+                            {error}
+
+                        </Alert>
+
+                    )}
+
+                    <Form
+                        className="register-form"
+                        onSubmit={handleSubmit}
+                    >
+
+                        <Form.Group>
+
+                            <Form.Label>
+
+                                Nombre
+
+                            </Form.Label>
+
                             <Form.Control
                                 type="text"
                                 placeholder="Ingrese su nombre"
                                 value={firstName}
-                                onChange={(e) => setFirstName(e.target.value)}
+                                onChange={(e) =>
+                                    setFirstName(e.target.value)
+                                }
                                 required
                             />
+
                         </Form.Group>
-                        <Form.Group controlId="formLastName">
-                            <Form.Label>Apellido</Form.Label>
+
+                        <Form.Group>
+
+                            <Form.Label>
+
+                                Apellido
+
+                            </Form.Label>
+
                             <Form.Control
                                 type="text"
                                 placeholder="Ingrese su apellido"
                                 value={lastName}
-                                onChange={(e) => setLastName(e.target.value)}
+                                onChange={(e) =>
+                                    setLastName(e.target.value)
+                                }
                                 required
                             />
+
                         </Form.Group>
-                        <Form.Group controlId="formUsername">
-                            <Form.Label>Nombre de usuario</Form.Label>
+
+                        <Form.Group>
+
+                            <Form.Label>
+
+                                Usuario
+
+                            </Form.Label>
+
                             <Form.Control
                                 type="text"
-                                placeholder="Ingrese su nombre de usuario"
+                                placeholder="Ingrese su usuario"
                                 value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                onChange={(e) =>
+                                    setUsername(e.target.value)
+                                }
                                 required
                             />
+
                         </Form.Group>
-                        <Form.Group controlId="formEmail">
-                            <Form.Label>Email</Form.Label>
+
+                        <Form.Group>
+
+                            <Form.Label>
+
+                                Email
+
+                            </Form.Label>
+
                             <Form.Control
                                 type="email"
                                 placeholder="Ingrese su email"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) =>
+                                    setEmail(e.target.value)
+                                }
                                 required
                             />
+
                         </Form.Group>
-                        <Form.Group controlId="formPassword">
-                            <Form.Label>Contraseña</Form.Label>
+
+                        <Form.Group>
+
+                            <Form.Label>
+
+                                Contraseña
+
+                            </Form.Label>
+
                             <Form.Control
                                 type="password"
                                 placeholder="Ingrese su contraseña"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) =>
+                                    setPassword(e.target.value)
+                                }
                                 required
                             />
+
                         </Form.Group>
-                        <Button variant="primary" type="submit">
-                            Registrar
-                        </Button>
+
+                        <div className="register-actions">
+
+                            <Button
+                                type="button"
+                                className="back-button"
+                                onClick={() => setShowModal(false)}
+                            >
+                                ← Volver
+                            </Button>
+
+                            <Button
+                                type="submit"
+                                className="register-button"
+                            >
+                                Crear cuenta
+                            </Button>
+
+                        </div>
+
                     </Form>
+
                 </Modal.Body>
+
             </Modal>
+
         </>
     );
 };

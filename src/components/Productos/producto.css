@@ -1,29 +1,270 @@
-.product-img {
-    width: 200px; /* Ajusta el tamaño de la imagen */
-    height: 200px; /* Ajusta el tamaño de la imagen */
-    object-fit: cover; /* Asegura que la imagen mantenga su proporción */
-    margin-right: 20px; /* Espacio entre el body y la imagen */
-    float: left; /* Alinea la imagen a la izquierda */
+/* ==================================================
+   PRODUCT CARD
+================================================== */
+
+.product-card{
+
+    width:100%;
+
+    border:none !important;
+
+    border-radius:18px !important;
+
+    background:#ffffff;
+
+    box-shadow:0 10px 35px rgba(0,0,0,.07);
+
+    transition:.30s;
+
+    overflow:hidden;
+
+    margin:18px 0;
 }
 
-.product-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin: 10px;
+.product-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 18px 45px rgba(0,0,0,.12);
 }
 
-.product-card-body {
-    flex: 1;
-    padding-right: 20px;
+/* ==================================================
+   BODY
+================================================== */
+
+.product-card-body{
+
+    padding:28px !important;
 }
 
-.product-details {
-    flex: 1;
+/* ==================================================
+   IMAGEN
+================================================== */
+
+.product-img{
+
+    width:100%;
+
+    max-width:260px;
+
+    height:220px;
+
+    object-fit:contain;
+
+    display:block;
+
+    margin:auto;
+
+    transition:.35s;
 }
 
-.product-details .cantidad {
-    display: block;
-    margin-top: 5px; /* Añade un margen para separar "Cantidad" de "Stock" */
+.product-card:hover .product-img{
+
+    transform:scale(1.05);
+}
+
+/* ==================================================
+   INFORMACION
+================================================== */
+
+.product-details{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    gap:12px;
+
+    padding-left:20px;
+}
+
+/* ==================================================
+   TITULO
+================================================== */
+
+.product-title{
+
+    font-size:1.45rem;
+
+    font-weight:700;
+
+    color:#0f172a;
+
+    margin-bottom:8px;
+}
+
+/* ==================================================
+   TEXTO
+================================================== */
+
+.product-info{
+
+    color:#64748b;
+
+    font-size:1rem;
+
+    line-height:1.9;
+}
+
+.product-info strong{
+
+    color:#0f172a;
+}
+
+/* ==================================================
+   CANTIDAD
+================================================== */
+
+.cantidad{
+
+    display:inline-block;
+
+    margin-top:10px;
+
+    padding:6px 12px;
+
+    border-radius:8px;
+
+    background:#eff6ff;
+
+    color:#2563eb;
+
+    font-weight:600;
+}
+
+/* ==================================================
+   BOTON AGREGAR
+================================================== */
+
+.add-cart-button{
+
+    margin-top:18px;
+
+    width:220px;
+
+    background:#2563eb !important;
+
+    border:none !important;
+
+    border-radius:12px !important;
+
+    padding:12px 18px !important;
+
+    font-weight:600;
+
+    transition:.30s;
+}
+
+.add-cart-button:hover{
+
+    background:#1d4ed8 !important;
+
+    transform:translateY(-2px);
+}
+
+/* ==================================================
+   BOTON ELIMINAR
+================================================== */
+
+.delete-product-button{
+
+    margin-top:14px;
+
+    width:220px;
+
+    border:none !important;
+
+    border-radius:12px !important;
+
+    padding:12px;
+
+    background:#dc2626 !important;
+
+    transition:.30s;
+}
+
+.delete-product-button:hover{
+
+    background:#b91c1c !important;
+
+    transform:translateY(-2px);
+}
+
+/* ==================================================
+   BOTONES ADMIN
+================================================== */
+
+.product-details button{
+
+    margin-right:10px;
+}
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width:992px){
+
+.product-card{
+
+    text-align:center;
+}
+
+.product-details{
+
+    padding-left:0;
+
+    margin-top:25px;
+
+    align-items:center;
+}
+
+.product-title{
+
+    font-size:1.3rem;
+}
+
+}
+
+@media (max-width:768px){
+
+.product-card-body{
+
+    padding:20px !important;
+}
+
+.product-img{
+
+    height:180px;
+}
+
+.add-cart-button,
+.delete-product-button{
+
+    width:100%;
+}
+
+}
+
+@media (max-width:576px){
+
+.product-img{
+
+    max-width:180px;
+
+    height:160px;
+}
+
+.product-title{
+
+    font-size:1.15rem;
+}
+
+.product-info{
+
+    font-size:.95rem;
+}
+
 }

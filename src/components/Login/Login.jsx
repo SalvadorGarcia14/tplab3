@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Form, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Registrar from '../Login/Registrar/Registrar'; // Importa el componente Registrar
+import "./Login.css";
 
 const Login = ({ onLogin }) => {
     const navigate = useNavigate();
@@ -71,40 +72,120 @@ const Login = ({ onLogin }) => {
     const accessToken = localStorage.getItem('accessToken');
 
     return (
-        <div className="login-container">
-            <h2>Iniciar sesión</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleSubmitLogin}>
-                <Form.Group controlId="formUsername">
-                    <Form.Label>Nombre de usuario</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Ingresa tu nombre de usuario"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </Form.Group>
-                <Form.Group controlId="formPassword">
-                    <Form.Label>Contraseña</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Ingresa tu contraseña"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                    Iniciar sesión
-                </Button>
-            </Form>
-            {accessToken ? (
-                <Registrar accessToken={accessToken} onUserRegistered={handleUserRegistered} />
-            ) : (
-                <Alert variant="warning">Por favor, inicia sesión para registrar un nuevo usuario.</Alert>
-            )}
-        </div>
+
+        <section className="login-page">
+
+            <div className="login-card">
+
+                <div className="login-header">
+
+                    <h2>Iniciar sesión</h2>
+
+                    <p>
+                        Accede a tu cuenta para comprar y administrar tus pedidos.
+                    </p>
+
+                </div>
+
+                {error && (
+
+                    <Alert
+                        variant="danger"
+                        className="login-alert"
+                    >
+
+                        {error}
+
+                    </Alert>
+
+                )}
+
+                <Form
+                    className="login-form"
+                    onSubmit={handleSubmitLogin}
+                >
+
+                    <Form.Group className="form-group">
+
+                        <Form.Label>
+
+                            Nombre de usuario
+
+                        </Form.Label>
+
+                        <Form.Control
+                            type="text"
+                            placeholder="Ingresa tu usuario"
+                            value={username}
+                            onChange={(e) =>
+                                setUsername(e.target.value)
+                            }
+                            required
+                        />
+
+                    </Form.Group>
+
+                    <Form.Group className="form-group">
+
+                        <Form.Label>
+
+                            Contraseña
+
+                        </Form.Label>
+
+                        <Form.Control
+                            type="password"
+                            placeholder="Ingresa tu contraseña"
+                            value={password}
+                            onChange={(e) =>
+                                setPassword(e.target.value)
+                            }
+                            required
+                        />
+
+                    </Form.Group>
+
+                    <Button
+                        type="submit"
+                        className="login-button"
+                    >
+
+                        Iniciar sesión
+
+                    </Button>
+
+                </Form>
+
+                <div className="register-section">
+
+                    {accessToken ? (
+
+                        <Registrar
+                            accessToken={accessToken}
+                            onUserRegistered={
+                                handleUserRegistered
+                            }
+                        />
+
+                    ) : (
+
+                        <Alert
+                            variant="warning"
+                            className="register-alert"
+                        >
+
+                            Inicia sesión para registrar nuevos usuarios.
+
+                        </Alert>
+
+                    )}
+
+                </div>
+
+            </div>
+
+        </section>
+
     );
 };
 

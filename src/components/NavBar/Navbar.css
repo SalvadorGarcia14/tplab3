@@ -1,24 +1,212 @@
-.hide-navbar {
-    display: none;
+/* ==========================================
+   NAVBAR
+========================================== */
+
+.custom-navbar{
+
+    background:#ffffff !important;
+
+    box-shadow:0 6px 25px rgba(0,0,0,.06);
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    padding:16px 0;
+
+    border-bottom:1px solid #e5e7eb;
 }
 
-.navbar-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
+/* ==========================================
+   CONTENEDOR
+========================================== */
+
+.navbar-container{
+
+    width:95%;
+
+    max-width:1450px;
+
+    margin:auto;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:25px;
 }
 
-.navbar-form {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    margin: 0 20px;
+/* ==========================================
+   LOGO
+========================================== */
+
+.navbar-logo{
+
+    font-size:1.8rem;
+
+    font-weight:700;
+
+    color:#1e293b !important;
+
+    letter-spacing:.4px;
+
+    white-space:nowrap;
 }
 
-.navbar-links {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.navbar-logo span{
+
+    color:#2563eb;
 }
 
+/* ==========================================
+   BUSCADOR
+========================================== */
+
+.navbar-form{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+}
+
+.navbar-form input{
+
+    width:100%;
+
+    max-width:650px;
+
+    height:48px;
+
+    border-radius:50px;
+
+    border:1px solid #dbe3ec;
+
+    padding:0 22px;
+
+    background:#f8fafc;
+
+    transition:.3s;
+}
+
+.navbar-form input:focus{
+
+    background:white;
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+}
+
+/* ==========================================
+   LINKS
+========================================== */
+
+.navbar-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    white-space:nowrap;
+}
+
+.navbar-links a{
+
+    color:#334155 !important;
+
+    font-weight:600;
+
+    transition:.25s;
+}
+
+.navbar-links a:hover{
+
+    color:#2563eb !important;
+}
+
+/* ==========================================
+   BOTON
+========================================== */
+
+.navbar-button{
+
+    background:#2563eb !important;
+
+    border:none !important;
+
+    color:white !important;
+
+    padding:10px 20px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.navbar-button:hover{
+
+    background:#1d4ed8 !important;
+
+    transform:translateY(-2px);
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:992px){
+
+    .navbar-container{
+
+        flex-direction:column;
+
+        gap:18px;
+    }
+
+    .navbar-form{
+
+        width:100%;
+    }
+
+    .navbar-form input{
+
+        max-width:100%;
+    }
+
+    .navbar-links{
+
+        width:100%;
+
+        justify-content:center;
+
+        flex-wrap:wrap;
+    }
+}
+
+@media (max-width:576px){
+
+    .navbar-logo{
+
+        font-size:1.45rem;
+    }
+
+    .navbar-links{
+
+        gap:10px;
+    }
+
+    .navbar-button{
+
+        width:100%;
+    }
+}

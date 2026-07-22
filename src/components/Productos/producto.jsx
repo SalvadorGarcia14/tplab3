@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import ModificarProducto from '../Productos/ModificarProducto/modificarProducto';
-import './producto.css'; 
+import './producto.css';
 
 const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onUpdateProduct, onRemoveProduct, user }) => {
     const [isAdded, setIsAdded] = useState(false);
@@ -46,21 +46,23 @@ const Producto = ({ componente, onAddToCart, isAdminOrVendedor, onUpdateProduct,
                         <Card.Img variant="top" src={componente.imagen} className="product-img" />
                     </Col>
                     <Col md={8} className="product-details">
-                        <Card.Title>{componente.name}</Card.Title>
-                        <Card.Text>
+                        <Card.Title className="product-title">
+                            {componente.name}
+                        </Card.Title>
+                        <Card.Text className="product-info">
                             Precio: ${componente.precio} <br />
                             Stock: {componente.cantidad > 0 ? 'Disponible' : 'Agotado'}<br />
                             {isAdminOrVendedor && <span className="cantidad">Cantidad: {componente.cantidad}</span>}
                         </Card.Text>
                         {!isAdded && componente.cantidad > 0 && user && (
-                            <Button variant="primary" onClick={handleAddToCart}>
+                            <Button className="add-cart-button" variant="primary" onClick={handleAddToCart}>
                                 Agregar al carrito
                             </Button>
                         )}
                         {isAdminOrVendedor && (
                             <>
                                 <ModificarProducto producto={componente} onSave={handleSaveChanges} />
-                                <Button variant="danger" onClick={handleRemoveProduct}>
+                                <Button className="delete-product-button" variant="danger" onClick={handleRemoveProduct}>
                                     Quitar producto
                                 </Button>
                             </>

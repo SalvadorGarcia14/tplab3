@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button, Alert, Image } from 'react-bootstrap';
+import "./pantallaCarrito.css";
 
 const PantallaCarrito = ({ user, carrito, setCarrito, onCompraRealizada }) => {
     const [showAlert, setShowAlert] = useState(false);
@@ -57,32 +58,212 @@ const PantallaCarrito = ({ user, carrito, setCarrito, onCompraRealizada }) => {
     }
 
     return (
-        <Card style={{ width: '18rem', margin: '10px' }}>
-            <Card.Body>
-                <Card.Title>Carrito de Compras</Card.Title>
-                {carrito.map(componente => (
-                    <div key={componente.id}>
-                        <Image src={componente.imagen} alt={componente.name} style={{ width: '50px', height: '50px' }} />
-                        <p>{componente.name} ({componente.marca}) - Cantidad: {componente.cantidadEnCarrito || 1}</p>
-                        <Button variant="secondary" onClick={() => handleDecrement(componente)}>-</Button>
-                        <Button variant="secondary" onClick={() => handleIncrement(componente)}>+</Button>
-                        <Button variant="danger" onClick={() => handleRemoveFromCart(componente)}>Eliminar</Button>
-                    </div>
-                ))}
-                <p>Total: ${calcularPrecioTotal()}</p>
-                <Button variant="success" onClick={handleComprar} disabled={carrito.length === 0}>Comprar</Button>
-                {showCompraRealizada && carrito.length === 0 && (
-                    <Alert variant="success" onClose={() => setShowCompraRealizada(false)} dismissible>
-                        Gracias por su compra
-                    </Alert>
-                )}
-            </Card.Body>
-            {showAlert && (
-                <Alert variant="warning" onClose={() => setShowAlert(false)} dismissible>
-                    {alertMessage}
+
+        <section className="cart-page">
+
+            <div className="cart-header">
+
+                <h1>Carrito de Compras</h1>
+
+                <p>
+                    Revisá tus productos antes de finalizar la compra.
+                </p>
+
+            </div>
+
+            {!user && (
+
+                <Alert className="cart-alert-danger">
+
+                    No hay usuario autenticado
+
                 </Alert>
+
             )}
-        </Card>
+
+            {user && (
+
+                <>
+
+                    <div className="cart-products-grid">
+
+                        {carrito.map((componente) => (
+
+                            <Card
+                                key={componente.id}
+                                className="cart-item-card"
+                            >
+
+                                <div className="cart-item-image-container">
+
+                                    <Image
+                                        src={componente.imagen}
+                                        alt={componente.name}
+                                        className="cart-item-image"
+                                    />
+
+                                </div>
+
+                                <Card.Body>
+
+                                    <Card.Title
+                                        className="cart-item-title"
+                                    >
+
+                                        {componente.name}
+
+                                    </Card.Title>
+
+                                    <div className="cart-item-brand">
+
+                                        {componente.marca}
+
+                                    </div>
+
+                                    <div className="cart-item-price">
+
+                                        $
+
+                                        {(
+                                            componente.precio *
+                                            (componente.cantidadEnCarrito || 1)
+                                        ).toLocaleString()}
+
+                                    </div>
+
+                                    <div className="cart-quantity">
+
+                                        <span>
+
+                                            Cantidad
+
+                                        </span>
+
+                                        <div className="quantity-controls">
+
+                                            <Button
+                                                className="quantity-btn"
+                                                onClick={() =>
+                                                    handleDecrement(componente)
+                                                }
+                                            >
+
+                                                −
+
+                                            </Button>
+
+                                            <span>
+
+                                                {componente.cantidadEnCarrito || 1}
+
+                                            </span>
+
+                                            <Button
+                                                className="quantity-btn"
+                                                onClick={() =>
+                                                    handleIncrement(componente)
+                                                }
+                                            >
+
+                                                +
+
+                                            </Button>
+
+                                        </div>
+
+                                    </div>
+
+                                    <Button
+                                        className="remove-product-btn"
+                                        onClick={() =>
+                                            handleRemoveFromCart(componente)
+                                        }
+                                    >
+
+                                        Eliminar
+
+                                    </Button>
+
+                                </Card.Body>
+
+                            </Card>
+
+                        ))}
+
+                    </div>
+
+                    <div className="cart-summary">
+
+                        <h3>
+
+                            Resumen de compra
+
+                        </h3>
+
+                        <div className="cart-total">
+
+                            Total
+
+                            <span>
+
+                                $
+
+                                {calcularPrecioTotal().toLocaleString()}
+
+                            </span>
+
+                        </div>
+
+                        <Button
+                            className="buy-button"
+                            onClick={handleComprar}
+                            disabled={carrito.length === 0}
+                        >
+
+                            Finalizar compra
+
+                        </Button>
+
+                    </div>
+
+                    {showCompraRealizada && (
+
+                        <Alert
+                            variant="success"
+                            dismissible
+                            onClose={() =>
+                                setShowCompraRealizada(false)
+                            }
+                        >
+
+                            ¡Gracias por tu compra!
+
+                        </Alert>
+
+                    )}
+
+                    {showAlert && (
+
+                        <Alert
+                            variant="warning"
+                            dismissible
+                            onClose={() =>
+                                setShowAlert(false)
+                            }
+                        >
+
+                            {alertMessage}
+
+                        </Alert>
+
+                    )}
+
+                </>
+
+            )}
+
+        </section>
+
     );
 };
 

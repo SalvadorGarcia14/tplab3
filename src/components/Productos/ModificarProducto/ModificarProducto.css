@@ -1,0 +1,232 @@
+/* =====================================================
+   MODAL
+===================================================== */
+
+.edit-product-modal .modal-content{
+
+    border:none;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.15);
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.edit-modal-header{
+
+    background:#ffffff;
+
+    border-bottom:1px solid #e2e8f0;
+
+    padding:22px 28px;
+}
+
+.edit-modal-title{
+
+    font-size:1.45rem;
+
+    font-weight:700;
+
+    color:#0f172a;
+}
+
+/* =====================================================
+   BODY
+===================================================== */
+
+.edit-modal-body{
+
+    background:#f8fafc;
+
+    padding:30px;
+}
+
+/* =====================================================
+   FORMULARIO
+===================================================== */
+
+.edit-product-form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+}
+
+.form-group-custom{
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+/* =====================================================
+   LABELS
+===================================================== */
+
+.form-group-custom label{
+
+    font-weight:600;
+
+    color:#334155;
+
+    margin-bottom:8px;
+}
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+.form-group-custom input{
+
+    border:1px solid #dbe3ec;
+
+    border-radius:12px;
+
+    background:#ffffff;
+
+    padding:12px 16px;
+
+    transition:.25s;
+
+    font-size:.95rem;
+}
+
+.form-group-custom input:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+}
+
+/* =====================================================
+   BOTON ABRIR MODAL
+===================================================== */
+
+/* ==========================================
+   BOTÓN MODIFICAR
+========================================== */
+
+.edit-product-button{
+
+    margin-top:18px;
+
+    width:220px;
+
+    background:#2563eb !important;
+
+    border:none !important;
+
+    border-radius:12px !important;
+
+    padding:12px 18px !important;
+
+    color:#ffffff !important;
+
+    font-weight:600;
+
+    transition:.30s;
+
+    box-shadow:0 6px 18px rgba(37,99,235,.20);
+}
+
+.edit-product-button:hover{
+
+    background:#1d4ed8 !important;
+
+    color:#ffffff !important;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 24px rgba(37,99,235,.30);
+}
+
+.edit-product-button:active{
+
+    transform:translateY(0);
+}
+/* =====================================================
+   BOTON GUARDAR
+===================================================== */
+
+.save-product-button{
+
+    width:100%;
+
+    margin-top:10px;
+
+    background:#2563eb !important;
+
+    border:none !important;
+
+    border-radius:12px !important;
+
+    padding:13px;
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    transition:.25s;
+}
+
+.save-product-button:hover{
+
+    background:#1d4ed8 !important;
+
+    transform:translateY(-2px);
+}
+
+/* =====================================================
+   BOTON CERRAR
+===================================================== */
+
+.btn-close{
+
+    opacity:.6;
+
+    transition:.2s;
+}
+
+.btn-close:hover{
+
+    opacity:1;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:768px){
+
+    .edit-modal-body{
+
+        padding:22px;
+    }
+
+    .edit-modal-title{
+
+        font-size:1.25rem;
+    }
+
+}
+
+@media(max-width:576px){
+
+    .edit-modal-body{
+
+        padding:18px;
+    }
+
+    .save-product-button{
+
+        font-size:.95rem;
+    }
+
+}

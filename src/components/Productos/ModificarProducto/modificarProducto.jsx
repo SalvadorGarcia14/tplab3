@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Form, Button } from 'react-bootstrap';
+import "./ModificarProducto.css";
 
 const ModificarProducto = ({ producto, onSave }) => {
     const [showModal, setShowModal] = useState(false);
@@ -65,17 +66,22 @@ const ModificarProducto = ({ producto, onSave }) => {
 
     return (
         <>
-            <Button variant="secondary" onClick={handleShow}>
-                Modificar 
+            <Button className="edit-product-button" variant="secondary" onClick={handleShow}>
+                Modificar
             </Button>
 
-            <Modal show={showModal} onHide={handleClose}>
+            <Modal
+                show={showModal}
+                onHide={handleClose}
+                centered
+                dialogClassName="edit-product-modal"
+            >
                 <Modal.Header closeButton>
-                    <Modal.Title>Modificar Producto</Modal.Title>
+                    <Modal.Title className="edit-modal-title">Modificar Producto</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formNombre">
+                <Modal.Body className="edit-modal-body">
+                    <Form className="edit-product-form" onSubmit={handleSubmit}>
+                        <Form.Group className="form-group-custom" controlId="formNombre">
                             <Form.Label>Nombre</Form.Label>
                             <Form.Control
                                 type="text"
@@ -84,7 +90,7 @@ const ModificarProducto = ({ producto, onSave }) => {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formPrecio">
+                        <Form.Group className="form-group-custom" controlId="formPrecio">
                             <Form.Label>Precio</Form.Label>
                             <Form.Control
                                 type="number"
@@ -94,7 +100,7 @@ const ModificarProducto = ({ producto, onSave }) => {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formCantidad">
+                        <Form.Group className="form-group-custom" controlId="formCantidad">
                             <Form.Label>Cantidad</Form.Label>
                             <Form.Control
                                 type="number"
@@ -103,7 +109,7 @@ const ModificarProducto = ({ producto, onSave }) => {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formImagen">
+                        <Form.Group className="form-group-custom" controlId="formImagen">
                             <Form.Label>Imagen</Form.Label>
                             <Form.Control
                                 type="text"
@@ -112,7 +118,7 @@ const ModificarProducto = ({ producto, onSave }) => {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button className="save-product-button" variant="primary" type="submit">
                             Guardar cambios
                         </Button>
                     </Form>

@@ -1,0 +1,377 @@
+/* ======================================================
+   BOTON ABRIR MODAL
+====================================================== */
+
+.register-open-button{
+
+    width:100%;
+
+    height:52px;
+
+    margin-top:20px;
+
+    border:none !important;
+
+    border-radius:14px !important;
+
+    background:#2563eb !important;
+
+    color:#ffffff !important;
+
+    font-weight:600;
+
+    transition:.30s;
+
+    box-shadow:0 8px 18px rgba(37,99,235,.20);
+}
+
+.register-open-button:hover{
+
+    background:#1d4ed8 !important;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 14px 24px rgba(37,99,235,.28);
+}
+
+/* ======================================================
+   MODAL
+====================================================== */
+
+.register-modal .modal-dialog{
+
+    max-width:700px;
+
+    margin:1.5rem auto;
+
+}
+
+.register-modal .modal-content{
+
+    border:none;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    box-shadow:0 20px 50px rgba(15,23,42,.18);
+
+    max-height:90vh;
+
+    overflow:hidden;
+}
+
+.register-modal .modal-header{
+
+    border-bottom:1px solid #edf2f7;
+
+    padding:22px 28px;
+}
+
+.register-modal .modal-title{
+
+    font-size:1.6rem;
+
+    font-weight:700;
+
+    color:#0f172a;
+}
+
+.register-modal .modal-body{
+
+    max-height:calc(90vh - 90px);
+
+    overflow-y:auto;
+
+    padding:30px;
+}
+
+/* ======================================================
+   SUBTITULO
+====================================================== */
+
+.register-subtitle{
+
+    text-align:center;
+
+    color:#64748b;
+
+    margin-bottom:28px;
+
+    line-height:1.7;
+}
+
+/* ======================================================
+   FORMULARIO
+====================================================== */
+
+.register-form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+}
+
+.register-form label{
+
+    font-weight:600;
+
+    color:#334155;
+
+    margin-bottom:8px;
+}
+
+/* ======================================================
+   INPUTS
+====================================================== */
+
+.register-form .form-control{
+
+    height:52px;
+
+    border-radius:12px;
+
+    border:1px solid #dbe3ec;
+
+    background:#f8fafc;
+
+    transition:.25s;
+}
+
+.register-form .form-control:focus{
+
+    background:#ffffff;
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+}
+
+/* ======================================================
+   BOTON REGISTRAR
+====================================================== */
+
+.register-button{
+
+    margin-top:10px;
+
+    width:100%;
+
+    height:54px;
+
+    border:none !important;
+
+    border-radius:14px !important;
+
+    background:#2563eb !important;
+
+    color:#ffffff !important;
+
+    font-weight:700;
+
+    font-size:1rem;
+
+    transition:.30s;
+
+    box-shadow:0 10px 20px rgba(22,163,74,.20);
+}
+
+.register-button:hover{
+
+    background:#2563eb !important;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 14px 24px rgba(22,163,74,.30);
+}
+
+/* ======================================================
+   ALERTA
+====================================================== */
+
+.register-error{
+
+    border-radius:12px;
+
+    margin-bottom:20px;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media(max-width:768px){
+
+    .register-modal .modal-body{
+
+        padding:22px;
+    }
+
+}
+
+@media(max-width:576px){
+
+    .register-modal .modal-title{
+
+        font-size:1.35rem;
+    }
+
+    .register-subtitle{
+
+        font-size:.95rem;
+    }
+
+}
+
+/*======================================================
+    BOTONES
+======================================================*/
+
+.register-actions{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-top:25px;
+}
+
+/*------------------------------
+    VOLVER
+------------------------------*/
+
+
+.back-button:hover{
+
+    background:#f8fafc !important;
+
+    border-color:#94a3b8 !important;
+
+    color:#0f172a !important;
+
+    transform:translateY(-2px);
+}
+
+/*------------------------------
+    CREAR CUENTA
+------------------------------*/
+
+/*=========================================
+    ACCIONES
+=========================================*/
+
+.register-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    margin-top:35px;
+}
+
+/*=========================================
+    ESTILO BASE
+=========================================*/
+
+.register-actions .btn{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:56px;
+
+    padding:0 24px;
+
+    border-radius:14px !important;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:all .25s ease;
+
+    box-sizing:border-box;
+}
+
+/*=========================================
+    BOTON VOLVER
+=========================================*/
+
+.back-button{
+
+    flex:1;
+
+    border:1px solid #dbe3ec !important;
+
+    background:#f8fafc !important;
+
+    color:#334155 !important;
+
+    box-shadow:none !important;
+}
+
+.back-button:hover{
+
+    background:#eef2f7 !important;
+
+    border-color:#cbd5e1 !important;
+
+    color:#0f172a !important;
+
+    transform:translateY(-2px);
+}
+
+/*=========================================
+    BOTON CREAR
+=========================================*/
+
+.register-button{
+
+    flex:1.6;
+
+    border:none !important;
+
+    background:linear-gradient(135deg,#22c55e,#16a34a) !important;
+
+    color:white !important;
+
+    box-shadow:0 12px 24px rgba(22,163,74,.18);
+}
+
+.register-button:hover{
+
+    background:linear-gradient(135deg,#16a34a,#15803d) !important;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 18px 30px rgba(22,163,74,.25);
+}
+
+.register-button:active,
+.back-button:active{
+
+    transform:scale(.98);
+}
+
+@media(max-width:576px){
+
+    .register-actions{
+
+        flex-direction:column;
+    }
+
+    .register-actions .btn{
+
+        width:100%;
+    }
+
+}
