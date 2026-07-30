@@ -1,0 +1,1057 @@
+
+/* =========================================================
+   LISTA DE COMPRAS
+   UX/UI - E-commerce
+   VERSIÓN: LECTURA AMPLIADA
+========================================================= */
+
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+========================================================= */
+
+.lista-compras {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.lista-compras-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 28px;
+
+    margin-bottom: 30px;
+}
+
+.lista-compras-header h2 {
+    margin: 0;
+
+    color: #123f6b;
+
+    font-size: 34px;
+    font-weight: 750;
+
+    letter-spacing: -0.5px;
+}
+
+.lista-compras-header p {
+    margin: 8px 0 0;
+
+    color: #7d8d9d;
+
+    font-size: 17px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   CONTADOR DE COMPRAS
+========================================================= */
+
+.lista-compras-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 125px;
+
+    padding: 13px 21px;
+
+    background: #e8f3ff;
+
+    border: 1px solid #d3e6f7;
+
+    border-radius: 30px;
+
+    color: #1769aa;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   CONTENEDOR DE PEDIDOS
+========================================================= */
+
+.lista-compras-container {
+    display: flex;
+    flex-direction: column;
+
+    gap: 32px;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   CARD DE COMPRA
+========================================================= */
+
+.compra-card {
+    width: 100%;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe8f1;
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 10px 32px rgba(24, 67, 105, 0.08);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.compra-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #cbddea;
+
+    box-shadow:
+        0 15px 38px rgba(24, 67, 105, 0.11);
+}
+
+
+/* =========================================================
+   HEADER DEL PEDIDO
+========================================================= */
+
+.compra-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding: 30px 34px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fbff,
+            #f2f7fc
+        );
+
+    border-bottom: 1px solid #e5edf4;
+}
+
+.compra-header-info {
+    display: flex;
+    align-items: center;
+
+    gap: 19px;
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   ICONO DEL PEDIDO
+========================================================= */
+
+.compra-icon {
+    width: 62px;
+    height: 62px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: #e6f2ff;
+
+    border: 1px solid #d4e8f8;
+
+    border-radius: 15px;
+
+    font-size: 27px;
+}
+
+
+/* =========================================================
+   INFORMACIÓN DEL PEDIDO
+========================================================= */
+
+.compra-header-info h3 {
+    margin: 0 0 7px;
+
+    color: #244e70;
+
+    font-size: 22px;
+    font-weight: 750;
+
+    line-height: 1.3;
+}
+
+.compra-header-info span {
+    display: block;
+
+    color: #8795a3;
+
+    font-size: 16px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   ESTADO DEL PEDIDO
+========================================================= */
+
+.compra-status {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 10px 17px;
+
+    background: #edf8f1;
+
+    border: 1px solid #d5ebdc;
+
+    border-radius: 22px;
+
+    color: #287844;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   SECCIONES INTERNAS
+========================================================= */
+
+.compra-section {
+    padding: 32px 34px;
+
+    border-bottom: 1px solid #edf2f6;
+}
+
+
+/* =========================================================
+   TÍTULO DE SECCIÓN
+========================================================= */
+
+.compra-section-title {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    margin-bottom: 23px;
+}
+
+.compra-section-title > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 43px;
+    height: 43px;
+
+    background: #f0f6fc;
+
+    border-radius: 11px;
+
+    font-size: 20px;
+}
+
+.compra-section-title h4 {
+    margin: 0;
+
+    color: #315976;
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PRODUCTOS
+========================================================= */
+
+.compra-productos {
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+
+/* =========================================================
+   PRODUCTO
+========================================================= */
+
+.compra-producto {
+    display: grid;
+
+    grid-template-columns:
+        105px
+        minmax(0, 1fr)
+        auto;
+
+    align-items: center;
+
+    gap: 22px;
+
+    min-width: 0;
+
+    padding: 20px;
+
+    background: #fafcff;
+
+    border: 1px solid #e7eef5;
+
+    border-radius: 15px;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.compra-producto:hover {
+    background: #f5f9fd;
+
+    border-color: #d8e5ef;
+}
+
+
+/* =========================================================
+   IMAGEN PRODUCTO
+========================================================= */
+
+.compra-producto-imagen {
+    width: 105px;
+    height: 105px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #e1eaf2;
+
+    border-radius: 13px;
+}
+
+.compra-producto-imagen img {
+    width: 100%;
+    height: 100%;
+
+    padding: 8px;
+
+    object-fit: contain;
+
+    box-sizing: border-box;
+}
+
+.compra-producto-imagen span {
+    font-size: 33px;
+}
+
+
+/* =========================================================
+   INFORMACIÓN PRODUCTO
+========================================================= */
+
+.compra-producto-info {
+    min-width: 0;
+}
+
+.compra-producto-info h5 {
+    margin: 0 0 9px;
+
+    color: #294f70;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.compra-producto-info p {
+    margin: 0 0 9px;
+
+    color: #8392a0;
+
+    font-size: 15px;
+
+    line-height: 1.55;
+}
+
+.compra-producto-info > span {
+    color: #728395;
+
+    font-size: 15px;
+}
+
+.compra-producto-info strong {
+    color: #3d607b;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PRECIO DEL PRODUCTO
+========================================================= */
+
+.compra-producto-total {
+    color: #1769aa;
+
+    font-size: 23px;
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    text-align: right;
+}
+
+
+/* =========================================================
+   DATOS DE ENVÍO
+========================================================= */
+
+.datos-envio {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 16px;
+}
+
+
+/* =========================================================
+   DATO INDIVIDUAL DE ENVÍO
+========================================================= */
+
+.dato-envio {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 14px;
+
+    min-width: 0;
+
+    padding: 18px;
+
+    background: #fafcff;
+
+    border: 1px solid #e7eef5;
+
+    border-radius: 13px;
+}
+
+.dato-envio > span {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: #edf6ff;
+
+    border-radius: 9px;
+
+    font-size: 18px;
+}
+
+.dato-envio > div {
+    min-width: 0;
+}
+
+.dato-envio small {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #8a98a6;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.dato-envio strong {
+    display: block;
+
+    color: #365a76;
+
+    font-size: 15px;
+    font-weight: 650;
+
+    line-height: 1.45;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   RESUMEN ECONÓMICO
+========================================================= */
+
+.compra-resumen {
+    padding: 31px 34px;
+
+    background: #f8fbfe;
+}
+
+
+/* =========================================================
+   FILAS RESUMEN
+========================================================= */
+
+.compra-resumen-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    margin-bottom: 16px;
+}
+
+.compra-resumen-row span {
+    color: #718397;
+
+    font-size: 16px;
+}
+
+.compra-resumen-row strong {
+    color: #385975;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   ENVÍO GRATIS
+========================================================= */
+
+.compra-resumen-row strong.envio-gratis {
+    color: #287844;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   DIVISOR
+========================================================= */
+
+.compra-resumen-divider {
+    width: 100%;
+    height: 1px;
+
+    margin: 21px 0;
+
+    background: #dfe8ef;
+}
+
+
+/* =========================================================
+   TOTAL FINAL
+========================================================= */
+
+.compra-resumen-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+}
+
+.compra-resumen-total span {
+    color: #294f70;
+
+    font-size: 20px;
+    font-weight: 750;
+}
+
+.compra-resumen-total strong {
+    color: #1268a8;
+
+    font-size: 32px;
+    font-weight: 850;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   CARRITO SIN COMPRAS
+========================================================= */
+
+.lista-compras-empty {
+    width: 100%;
+
+    padding: 75px 35px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe8f1;
+
+    border-radius: 21px;
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 30px rgba(24, 67, 105, 0.07);
+}
+
+
+/* =========================================================
+   ICONO CARRITO VACÍO
+========================================================= */
+
+.lista-compras-empty-icon {
+    width: 92px;
+    height: 92px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 25px;
+
+    background: #e9f3ff;
+
+    border: 1px solid #d6e8f7;
+
+    border-radius: 50%;
+
+    font-size: 38px;
+}
+
+
+/* =========================================================
+   TEXTO CARRITO VACÍO
+========================================================= */
+
+.lista-compras-empty h3 {
+    margin: 0 0 12px;
+
+    color: #294f70;
+
+    font-size: 25px;
+    font-weight: 750;
+}
+
+.lista-compras-empty p {
+    max-width: 500px;
+
+    margin: 0 auto;
+
+    color: #8392a0;
+
+    font-size: 16px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .compra-producto {
+        grid-template-columns:
+            90px
+            minmax(0, 1fr)
+            auto;
+    }
+
+    .compra-producto-imagen {
+        width: 90px;
+        height: 90px;
+    }
+
+    .datos-envio {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   TABLET PEQUEÑA
+========================================================= */
+
+@media (max-width: 750px) {
+
+    .lista-compras-header {
+        align-items: flex-start;
+    }
+
+    .lista-compras-header h2 {
+        font-size: 30px;
+    }
+
+    .compra-header {
+        padding: 26px;
+    }
+
+    .compra-section {
+        padding: 28px 26px;
+    }
+
+    .compra-resumen {
+        padding: 27px 26px;
+    }
+
+    .compra-producto {
+        grid-template-columns:
+            80px
+            minmax(0, 1fr)
+            auto;
+
+        gap: 17px;
+
+        padding: 17px;
+    }
+
+    .compra-producto-imagen {
+        width: 80px;
+        height: 80px;
+    }
+
+    .compra-producto-info h5 {
+        font-size: 18px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 550px) {
+
+    .lista-compras-header {
+        flex-direction: column;
+
+        gap: 12px;
+
+        margin-bottom: 22px;
+    }
+
+    .lista-compras-header h2 {
+        font-size: 26px;
+    }
+
+    .lista-compras-header p {
+        font-size: 14px;
+    }
+
+    .lista-compras-count {
+        align-self: flex-start;
+
+        min-width: auto;
+
+        padding: 11px 17px;
+
+        font-size: 14px;
+    }
+
+    .lista-compras-container {
+        gap: 20px;
+    }
+
+    .compra-card {
+        border-radius: 17px;
+    }
+
+    .compra-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+
+        padding: 21px;
+    }
+
+    .compra-header-info {
+        gap: 13px;
+    }
+
+    .compra-icon {
+        width: 50px;
+        height: 50px;
+
+        font-size: 22px;
+    }
+
+    .compra-header-info h3 {
+        font-size: 18px;
+    }
+
+    .compra-header-info span {
+        font-size: 14px;
+    }
+
+    .compra-status {
+        align-self: flex-start;
+
+        font-size: 12px;
+    }
+
+    .compra-section {
+        padding: 22px 21px;
+    }
+
+    .compra-section-title {
+        margin-bottom: 17px;
+    }
+
+    .compra-section-title > span {
+        width: 38px;
+        height: 38px;
+
+        font-size: 18px;
+    }
+
+    .compra-section-title h4 {
+        font-size: 17px;
+    }
+
+    .compra-producto {
+        grid-template-columns:
+            75px
+            minmax(0, 1fr);
+
+        align-items: start;
+
+        gap: 13px;
+
+        padding: 14px;
+    }
+
+    .compra-producto-imagen {
+        width: 75px;
+        height: 75px;
+    }
+
+    .compra-producto-info h5 {
+        font-size: 16px;
+    }
+
+    .compra-producto-info p {
+        font-size: 13px;
+    }
+
+    .compra-producto-info > span {
+        font-size: 13px;
+    }
+
+    .compra-producto-total {
+        grid-column: 2;
+
+        margin-top: -2px;
+
+        text-align: left;
+
+        font-size: 20px;
+    }
+
+    .datos-envio {
+        grid-template-columns: 1fr;
+
+        gap: 11px;
+    }
+
+    .dato-envio {
+        padding: 15px;
+    }
+
+    .dato-envio > span {
+        width: 36px;
+        height: 36px;
+
+        font-size: 16px;
+    }
+
+    .dato-envio small {
+        font-size: 11px;
+    }
+
+    .dato-envio strong {
+        font-size: 13px;
+    }
+
+    .compra-resumen {
+        padding: 23px 21px;
+    }
+
+    .compra-resumen-row span {
+        font-size: 14px;
+    }
+
+    .compra-resumen-row strong {
+        font-size: 15px;
+    }
+
+    .compra-resumen-total span {
+        font-size: 17px;
+    }
+
+    .compra-resumen-total strong {
+        font-size: 26px;
+    }
+
+    .lista-compras-empty {
+        padding: 55px 25px;
+    }
+
+    .lista-compras-empty-icon {
+        width: 78px;
+        height: 78px;
+
+        font-size: 32px;
+    }
+
+    .lista-compras-empty h3 {
+        font-size: 21px;
+    }
+
+    .lista-compras-empty p {
+        font-size: 14px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE PEQUEÑO
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .lista-compras-header h2 {
+        font-size: 23px;
+    }
+
+    .compra-header-info {
+        gap: 10px;
+    }
+
+    .compra-icon {
+        width: 44px;
+        height: 44px;
+
+        font-size: 20px;
+    }
+
+    .compra-header-info h3 {
+        font-size: 16px;
+    }
+
+    .compra-producto {
+        grid-template-columns:
+            65px
+            minmax(0, 1fr);
+
+        gap: 11px;
+    }
+
+    .compra-producto-imagen {
+        width: 65px;
+        height: 65px;
+    }
+
+    .compra-producto-info h5 {
+        font-size: 15px;
+    }
+
+    .compra-resumen-row span {
+        font-size: 13px;
+    }
+
+    .compra-resumen-total span {
+        font-size: 16px;
+    }
+
+    .compra-resumen-total strong {
+        font-size: 23px;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESIBILIDAD
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .compra-card,
+    .compra-producto {
+        transition: none;
+    }
+
+}
+
+
+/* =========================================================
+   PREVENIR DESBORDAMIENTOS
+========================================================= */
+
+.lista-compras *,
+.lista-compras *::before,
+.lista-compras *::after {
+    box-sizing: border-box;
+}
+
+.lista-compras,
+.compra-card,
+.compra-header,
+.compra-section,
+.compra-producto,
+.compra-producto-info,
+.compra-resumen,
+.dato-envio {
+    min-width: 0;
+}
+
+.lista-compras img {
+    max-width: 100%;
+}
+

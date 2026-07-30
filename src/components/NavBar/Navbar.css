@@ -210,3 +210,254 @@
         width:100%;
     }
 }
+
+
+
+/*=============================
+CARRITO
+=============================*/
+
+.cart-wrapper{
+
+    position:relative;
+
+}
+
+.cart-link{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+/*=============================
+CONTADOR
+=============================*/
+
+.cart-count{
+
+    width:22px;
+
+    height:22px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    box-shadow:0 6px 15px rgba(37,99,235,.35);
+
+    transition:.3s;
+}
+
+/*=============================
+REBOTE
+=============================*/
+
+.cart-bounce{
+
+    animation:cartBounce .6s ease;
+}
+
+@keyframes cartBounce{
+
+0%{
+
+transform:scale(1);
+
+}
+
+30%{
+
+transform:scale(1.18);
+
+}
+
+60%{
+
+transform:scale(.94);
+
+}
+
+100%{
+
+transform:scale(1);
+
+}
+
+}
+
+/*=============================
+TOAST
+=============================*/
+
+.cart-toast{
+
+    position:absolute;
+
+    top:50px;
+    right:0;
+
+    width:320px;
+    max-width:90vw;
+    min-height:72px;
+
+    background:#ffffff;
+
+    border-radius:18px;
+
+    padding:14px 18px;
+
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+
+    border-left:5px solid #2563eb;
+
+    box-shadow:
+        0 18px 40px rgba(37,99,235,.18),
+        0 8px 18px rgba(15,23,42,.08);
+
+    animation:toastAnimation .35s ease;
+
+    z-index:9999;
+
+    overflow:hidden;
+}
+
+.cart-toast strong{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    color:#2563eb;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    line-height:1.2;
+}
+
+.cart-toast span{
+
+    color:#475569;
+
+    font-size:13px;
+
+    line-height:1.4;
+
+    white-space:normal;
+
+    overflow-wrap:anywhere;
+
+    word-break:break-word;
+}
+
+@keyframes toastAnimation{
+
+from{
+
+opacity:0;
+
+transform:translateY(-15px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+/*=============================
+BRILLITOS
+=============================*/
+
+.sparkle{
+
+    color:#60a5fa;
+
+    position:absolute;
+
+    animation:sparkle .8s ease;
+
+    pointer-events:none;
+
+    font-size:14px;
+
+    text-shadow:0 0 8px rgba(96,165,250,.8);
+}
+
+.sparkle-1{
+
+    top:-12px;
+
+    left:18px;
+
+}
+
+.sparkle-2{
+
+    top:5px;
+
+    right:-8px;
+
+}
+
+.sparkle-3{
+
+    bottom:-10px;
+
+    left:40px;
+
+}
+
+@keyframes sparkle{
+
+0%{
+
+opacity:0;
+
+transform:scale(.2) rotate(0deg);
+
+}
+
+50%{
+
+opacity:1;
+
+transform:scale(1.4) rotate(180deg);
+
+}
+
+100%{
+
+opacity:0;
+
+transform:scale(.2) rotate(360deg);
+
+}
+
+}

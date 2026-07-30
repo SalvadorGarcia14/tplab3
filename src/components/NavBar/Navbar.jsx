@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./Navbar.css";
 
-const NavBar = ({ searchValue, setSearchValue, user, onLogout }) => {
+const NavBar = ({ searchValue, setSearchValue, user, onLogout, carrito, cartNotification }) => {
     const navigate = useNavigate();
 
     const handleLoginRedirect = () => {
@@ -34,9 +34,65 @@ const NavBar = ({ searchValue, setSearchValue, user, onLogout }) => {
                         Perfil
                     </Nav.Link>
 
-                    <Nav.Link as={Link} to="/pantallaCarrito">
-                        Carrito
-                    </Nav.Link>
+                    <div className="cart-wrapper">
+
+                        <Nav.Link
+                            as={Link}
+                            to="/pantallaCarrito"
+                            className={`cart-link ${cartNotification.visible ? "cart-bounce" : ""
+                                }`}
+                        >
+
+                            🛒 Carrito
+
+                            <span className="cart-count">
+
+                                {carrito.length}
+
+                            </span>
+
+                            {
+                                cartNotification.visible &&
+
+                                <>
+
+                                    <span className="sparkle sparkle-1">✨</span>
+
+                                    <span className="sparkle sparkle-2">✨</span>
+
+                                    <span className="sparkle sparkle-3">✨</span>
+
+                                </>
+
+                            }
+
+                        </Nav.Link>
+
+                        {
+
+                            cartNotification.visible &&
+
+                            <div className="cart-toast">
+
+                                <strong>
+
+                                    <span style={{ fontSize: "16px" }}>🛒</span>
+
+                                    Agregado al carrito
+
+                                </strong>
+
+                                <span>
+
+                                    {cartNotification.product}
+
+                                </span>
+
+                            </div>
+
+                        }
+
+                    </div>
 
                     {user ? (
                         <Button

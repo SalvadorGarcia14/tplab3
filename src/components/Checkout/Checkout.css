@@ -1,0 +1,588 @@
+/* =========================================
+   CHECKOUT PAGE
+========================================= */
+
+.checkout-page {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    padding: 40px 20px 60px;
+    background: #f5f8fc;
+}
+
+
+/* =========================================
+   CONTENEDOR PRINCIPAL
+========================================= */
+
+.checkout-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.checkout-header {
+    margin-bottom: 30px;
+}
+
+.checkout-header h1 {
+    margin: 0;
+    color: #123b68;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.checkout-header p {
+    margin-top: 8px;
+    margin-bottom: 0;
+    color: #6b7a8c;
+    font-size: 15px;
+}
+
+
+/* =========================================
+   ALERTA
+========================================= */
+
+.checkout-alert {
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: none;
+}
+
+
+/* =========================================
+   GRID
+========================================= */
+
+.checkout-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.8fr);
+    gap: 25px;
+    align-items: start;
+}
+
+
+/* =========================================
+   CARDS
+========================================= */
+
+.checkout-form-card,
+.checkout-summary-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(24, 66, 110, 0.08);
+    border: 1px solid #e5edf6;
+}
+
+
+/* =========================================
+   HEADER DE CARDS
+========================================= */
+
+.checkout-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 28px;
+}
+
+.checkout-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eaf3ff;
+    border-radius: 12px;
+
+    font-size: 23px;
+}
+
+.checkout-card-header h2 {
+    margin: 0;
+    color: #163f6b;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.checkout-card-header p {
+    margin: 4px 0 0;
+    color: #7a899a;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   FORMULARIO
+========================================= */
+
+.checkout-form-group {
+    margin-bottom: 20px;
+}
+
+.checkout-form-group label {
+    display: block;
+    margin-bottom: 7px;
+
+    color: #294d70;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.checkout-form-group .form-control,
+.checkout-form-group .form-select {
+    min-height: 45px;
+
+    border: 1px solid #d8e2ed;
+    border-radius: 9px;
+
+    color: #263f59;
+    background-color: #ffffff;
+
+    box-shadow: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.checkout-form-group .form-control:focus,
+.checkout-form-group .form-select:focus {
+    border-color: #1976d2;
+
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
+}
+
+.checkout-form-group .form-control::placeholder {
+    color: #a3afbc;
+}
+
+
+/* =========================================
+   FILAS DEL FORMULARIO
+========================================= */
+
+.checkout-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+
+/* =========================================
+   ENVÍO GRATIS
+========================================= */
+
+.free-shipping-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 15px;
+
+    margin: 5px 0 25px;
+
+    background: #eef9f2;
+    border: 1px solid #c8ebd4;
+    border-radius: 11px;
+
+    color: #246b3c;
+}
+
+.free-shipping-message > span {
+    font-size: 25px;
+}
+
+.free-shipping-message strong {
+    display: block;
+    font-size: 14px;
+}
+
+.free-shipping-message p {
+    margin: 3px 0 0;
+    font-size: 12px;
+}
+
+
+/* =========================================
+   BOTONES
+========================================= */
+
+.checkout-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    margin-top: 30px;
+    padding-top: 22px;
+
+    border-top: 1px solid #e8eef5;
+}
+
+.checkout-cancel-button,
+.checkout-confirm-button {
+    min-height: 46px;
+    padding: 0 22px;
+
+    border-radius: 9px;
+
+    font-weight: 600;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+
+/* BOTÓN CANCELAR */
+
+.checkout-cancel-button {
+    background: #ffffff;
+    border: 1px solid #d2dce7;
+    color: #536b82;
+}
+
+.checkout-cancel-button:hover,
+.checkout-cancel-button:focus {
+    background: #f5f8fb;
+    border-color: #bbc9d8;
+    color: #3d566e;
+}
+
+
+/* BOTÓN CONFIRMAR */
+
+.checkout-confirm-button {
+    border: none;
+
+    background: #1769aa;
+
+    box-shadow: 0 5px 14px rgba(23, 105, 170, 0.20);
+}
+
+.checkout-confirm-button:hover {
+    background: #125a92;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 7px 18px rgba(23, 105, 170, 0.25);
+}
+
+.checkout-confirm-button:disabled {
+    background: #8caac3;
+}
+
+
+/* =========================================
+   PRODUCTOS
+========================================= */
+
+.checkout-products {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    max-height: 360px;
+    overflow-y: auto;
+
+    padding-right: 5px;
+}
+
+
+/* SCROLLBAR */
+
+.checkout-products::-webkit-scrollbar {
+    width: 5px;
+}
+
+.checkout-products::-webkit-scrollbar-track {
+    background: #f1f4f8;
+    border-radius: 10px;
+}
+
+.checkout-products::-webkit-scrollbar-thumb {
+    background: #b7c7d8;
+    border-radius: 10px;
+}
+
+
+/* =========================================
+   PRODUCTO INDIVIDUAL
+========================================= */
+
+.checkout-product {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+
+    padding: 10px;
+
+    border-radius: 10px;
+
+    background: #f8fafc;
+    border: 1px solid #edf2f7;
+}
+
+.checkout-product-image-container {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+
+    border-radius: 9px;
+
+    overflow: hidden;
+}
+
+.checkout-product-image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+.checkout-product-info {
+    min-width: 0;
+}
+
+.checkout-product-info h3 {
+    margin: 0 0 5px;
+
+    color: #294b6b;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.checkout-product-info span {
+    color: #8392a2;
+    font-size: 12px;
+}
+
+.checkout-product > strong {
+    color: #21496d;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   DIVISORES
+========================================= */
+
+.checkout-divider {
+    width: 100%;
+    height: 1px;
+
+    margin: 20px 0;
+
+    background: #e7edf4;
+}
+
+
+/* =========================================
+   FILAS DE PRECIOS
+========================================= */
+
+.checkout-price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 14px;
+
+    color: #697c90;
+
+    font-size: 14px;
+}
+
+.checkout-price-row strong {
+    color: #304e6c;
+    font-weight: 600;
+}
+
+.shipping-free {
+    color: #26904c !important;
+}
+
+
+/* =========================================
+   TOTAL
+========================================= */
+
+.checkout-total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.checkout-total-row span {
+    color: #163f6b;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.checkout-total-row strong {
+    color: #1769aa;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   SEGURIDAD
+========================================= */
+
+.checkout-security {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    margin-top: 25px;
+    padding: 13px;
+
+    background: #f5f8fc;
+
+    border-radius: 9px;
+}
+
+.checkout-security span {
+    font-size: 16px;
+}
+
+.checkout-security p {
+    margin: 0;
+
+    color: #7b8c9e;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .checkout-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .checkout-summary-card {
+        order: -1;
+    }
+
+}
+
+
+/* =========================================
+   RESPONSIVE - MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .checkout-page {
+        padding: 25px 12px 40px;
+    }
+
+    .checkout-header h1 {
+        font-size: 27px;
+    }
+
+    .checkout-form-card,
+    .checkout-summary-card {
+        padding: 20px;
+        border-radius: 14px;
+    }
+
+    .checkout-form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .checkout-card-header {
+        margin-bottom: 22px;
+    }
+
+    .checkout-card-header h2 {
+        font-size: 18px;
+    }
+
+    .checkout-actions {
+        flex-direction: column-reverse;
+    }
+
+    .checkout-cancel-button,
+    .checkout-confirm-button {
+        width: 100%;
+    }
+
+    .checkout-product {
+        grid-template-columns: 50px minmax(0, 1fr);
+    }
+
+    .checkout-product-image-container {
+        width: 50px;
+        height: 50px;
+    }
+
+    .checkout-product > strong {
+        grid-column: 2;
+        justify-self: start;
+        margin-top: -5px;
+    }
+
+    .checkout-total-row span {
+        font-size: 17px;
+    }
+
+    .checkout-total-row strong {
+        font-size: 21px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE PEQUEÑO
+========================================= */
+
+@media (max-width: 400px) {
+
+    .checkout-page {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .checkout-form-card,
+    .checkout-summary-card {
+        padding: 16px;
+    }
+
+    .checkout-product-info h3 {
+        font-size: 12px;
+    }
+
+}
